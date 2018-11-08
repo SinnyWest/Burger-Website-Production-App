@@ -25,19 +25,29 @@ public class JDBC {
 		
 		JDBC jdbc = new JDBC();
 		
-		FoodItem chicken = new FoodItem("base", "chicken2", 30, 10, 3.00);
+		FoodItem testFoodItem = new FoodItem("base", "tofu", 30, 10, 3.00);
 		
-		jdbc.testInsertQuery(chicken);
+		//jdbc.testInsertQuery(testFoodItem);
+		
+		//testFoodItem = jdbc.testSelectQuery("chicken");
+		
+		//System.out.println("Test food item: " + testFoodItem.getName());
+		
+		int rowCount;
+		
+		rowCount = jdbc.testTableSize();
+		
+		System.out.println("Row count of ingredients table: " + rowCount);
 	}
-	
+	// this is tested as working 8/11
 	public void enterTestDatabase() {
 		
 		try {
 		String databaseUser = "westsere";				//change
         String databaseUserPass = "sinsinsin";       	//change  	  
         Class.forName("org.postgresql.Driver");		//change
-        Connection connection = null;            
-        String url = "jdbc:postgresql://db.ecs.vuw.ac.nz/dimmuburger_jdbc";	//change
+        connection = null;            
+        String url = "jdbc:postgresql://db.ecs.vuw.ac.nz/westsere_jdbc";	//change
         connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
         s = connection.createStatement();
 		}catch(Exception e)
@@ -48,6 +58,7 @@ public class JDBC {
         }
 	}
 	
+	// this is tested as working 8/11
 	public FoodItem testSelectQuery(String nm) {
 		
 		FoodItem test =null;
@@ -64,18 +75,17 @@ public class JDBC {
 			enterTestDatabase();
             
             //check table and column names
-            ResultSet rs = s.executeQuery("select * from Ingredients where name='"+nm+"'");
+            ResultSet rs = s.executeQuery("select * from Ingredients where ingredient='" + nm + "'");
 
             //pull data from row
             //load into fooditem test object
 
             if(rs.next()) {
-            	rs.next();
-            	String category=rs.getString("Category");	//might need to change column names later
-            	String name=rs.getString("Name");
-            	int quantity=rs.getInt("Quantity");
-            	int minLevel=rs.getInt("MinLevel");
-            	double price=rs.getDouble("Price");
+            	String category=rs.getString("category");	//might need to change column names later
+            	String name=rs.getString("ingredient");
+            	int quantity=rs.getInt("quantityinstock");
+            	int minLevel=rs.getInt("restocklevel");
+            	double price=rs.getDouble("price");
             	test=new FoodItem(category, name, quantity, minLevel, price);
             	
             }
@@ -93,7 +103,7 @@ public class JDBC {
 		
 	}
 	
-	
+	// this is tested as working 8/11
 	//test save food to ingredients
 	public int testInsertQuery(FoodItem food) {
 		
@@ -109,16 +119,16 @@ public class JDBC {
 //            connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
 //            Statement s = connection.createStatement();
 			
-			String databaseUser = "westsere";				//change
-	        String databaseUserPass = "sinsinsin";       	//change  	  
-	        Class.forName("org.postgresql.Driver");		//change
-	        Connection connection = null;            
-	        String url = "jdbc:postgresql://db.ecs.vuw.ac.nz/westsere_jdbc";	//change
-	        connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
-	        Statement s = connection.createStatement();
+//			String databaseUser = "westsere";				//change
+//	        String databaseUserPass = "sinsinsin";       	//change  	  
+//	        Class.forName("org.postgresql.Driver");		//change
+//	        Connection connection = null;            
+//	        String url = "jdbc:postgresql://db.ecs.vuw.ac.nz/westsere_jdbc";	//change
+//	        connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
+//	        Statement s = connection.createStatement();
 			
 			
-//			enterTestDatabase();
+			enterTestDatabase();
             
             String foodname=food.getName();
             
@@ -154,9 +164,9 @@ public class JDBC {
 		
 	}
 	
-	
+	// this is tested as working 8/11
 	//test count rows in ingredients
-	public int testTableSize(String nm) {
+	public int testTableSize() {
 		
 		int rowCount=0;
 		
@@ -181,7 +191,7 @@ public class JDBC {
             //trying to count row numbers
             while(rs.next()) {
             	rs.next();
-            	rowCount=rs.getRow();
+            	rowCount = rs.getRow();
             	
             	
             }
