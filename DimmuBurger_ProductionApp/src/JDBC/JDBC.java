@@ -45,16 +45,22 @@ public class JDBC {
 //		
 //		System.out.println("Login is true?: " + login);
 		
-		HashMap<String, FoodItem> stockLevels;
+		Burger stockLevels;
 		
 		stockLevels = jdbc.checkStockLevels();
 		
-//		for(String name: stockLevels.keySet()) {
-//			System.out.println("Stock levels of "+name+" is "+stockLevels.get(name).getQuantity());
-//		}
+		ArrayList<FoodItem> ings = stockLevels.getIngredientList();
+		for(int i=0;i<ings.size();i++) {
+			System.out.println("Stock levels of "+ings.get(i).getName()+" is "+ings.get(i).getQuantity());
+		}
+		boolean restock = jdbc.reorderStock(stockLevels);
+		
+		System.out.println("restock: " + restock);
+		
+		
 //		System.out.println("Stock levels of");
-		FoodItem temp1=new FoodItem("","chicken",1,0,0);
-		FoodItem temp2 = new FoodItem("","beef",1,0,0);
+//		FoodItem temp1=new FoodItem("","chicken",1,0,0);
+//		FoodItem temp2 = new FoodItem("","beef",1,0,0);
 		
 		/**
 		 * trying to test kitchen receive order method
@@ -63,11 +69,9 @@ public class JDBC {
 		 */
 		
 		HashMap<String,FoodItem> tempmap=new HashMap<String,FoodItem>();
-		tempmap.put("chicken", temp1);
-		
-		boolean restock = jdbc.reorderStock(tempmap);
-		
-		System.out.println("restock: " + restock);
+//		tempmap.put("chicken", temp1);
+//		
+//		
 	}
 	// this is tested as working 8/11
 	public void enterTestDatabase() {
@@ -236,11 +240,13 @@ public class JDBC {
 		return res;
 	}  
 	
-	// this is tested as working 8/11
+	//tested as working 9/11
 	//check ingredient stock
-	public HashMap<String,FoodItem> checkStockLevels (){
+	//do we want this to pass out a burger object for simplicity??
+	public Burger checkStockLevels (){
 		
-		HashMap<String,FoodItem> stockLevel=new HashMap<String,FoodItem>();
+		Burger stockLevel = new Burger();
+		//HashMap<String,FoodItem> stockLevel=new HashMap<String,FoodItem>();
 		//query all items in ingredients
 		try
 		{       	
@@ -263,7 +269,7 @@ public class JDBC {
 				
 				FoodItem foodTemp=new FoodItem(category, name, quantity, minLevel, price);
 				
-				stockLevel.put(name, foodTemp);
+				stockLevel.addIngredient(foodTemp);
 			}
 			rs.close();
 			connection.close();
@@ -277,9 +283,9 @@ public class JDBC {
 		return stockLevel;
 	}
 
-	// this is tested as working 8/11
+	//tested as working 9/11
 	//reorder ingredients
-	public boolean reorderStock(HashMap<String, FoodItem> toReorder) {
+	public boolean reorderStock(Burger toReorder) {
 		
 		boolean added=true;
 
@@ -290,23 +296,28 @@ public class JDBC {
 			//for all items in hashmap
 			//check if name is in table
 			//if so, update stock quantity
+			ArrayList<FoodItem> toRestock=toReorder.getIngredientList();
 
-			for(String n: toReorder.keySet()) {
-				//change table name
+			for(int i=0;i<toRestock.size();i++) {
+				
+				//pull ingredient name from arraylist
+				String name=toRestock.get(i).getName();
+				
 				//get ingredient row
-				ResultSet rs = s.executeQuery("select * from ingredients where ingredient ='" + n + "'");
+				ResultSet rs = s.executeQuery("select * from ingredients where ingredient ='" + name + "'");
+				
 				//if ingredient in table, update stock level
 				if(rs.next()) {
 					//get existing quantity
 					int quantityExist=rs.getInt("quantityinstock");
 
-					//get quanitity to increase by from hashmap
-					int quantityAdd=toReorder.get(n).getQuantity();
+					//get quanitity to increase by quantity from arraylist
+					int quantityAdd=toRestock.get(i).getQuantity();
 					int quantitySum=quantityExist+quantityAdd;
 
 					//put new quantity into table
 					int rsRestock = s.executeUpdate("update ingredients set quantityinstock = '" + quantitySum 
-														+ "' where ingredient = '" + n + "'");
+														+ "' where ingredient = '" + name + "'");
 					//unsure how to use this int to tell if insertion was successful or not
 					System.out.println("rsRestock int " + rsRestock);
 				}else {
