@@ -45,30 +45,36 @@ public class JDBC {
 //		
 //		System.out.println("Login is true?: " + login);
 		
-		Burger stockLevels;
-		
-		stockLevels = jdbc.checkStockLevels();
-		
-		ArrayList<FoodItem> ings = stockLevels.getIngredientList();
-		for(int i=0;i<ings.size();i++) {
-			System.out.println("Stock levels of "+ings.get(i).getName()+" is "+ings.get(i).getQuantity());
-		}
-		boolean restock = jdbc.reorderStock(stockLevels);
-		
-		System.out.println("restock: " + restock);
+//		Burger stockLevels;
+//		
+//		stockLevels = jdbc.checkStockLevels();
+//		
+//		ArrayList<FoodItem> ings = stockLevels.getIngredientList();
+//		for(int i=0;i<ings.size();i++) {
+//			System.out.println("Stock levels of "+ings.get(i).getName()+" is "+ings.get(i).getQuantity());
+//		}
+//		boolean restock = jdbc.reorderStock(stockLevels);
+//		
+//		System.out.println("restock: " + restock);
 		
 		
 //		System.out.println("Stock levels of");
 //		FoodItem temp1=new FoodItem("","chicken",1,0,0);
 //		FoodItem temp2 = new FoodItem("","beef",1,0,0);
 		
-		/**
-		 * trying to test kitchen receive order method
-		 * may be issues with burger name pulling?
-		 * should probably finish customer place order method first
-		 */
+		Order newOrder = jdbc.receiveNewOrder(0);
+		ArrayList<Burger> burgers = newOrder.getBurgerList();
+		System.out.println(burgers.size());
+		for(int i=0;i<burgers.size();i++) {
+			
+			System.out.println(burgers.get(i).getName());
+			ArrayList<FoodItem> food = burgers.get(i).getIngredientList();
+			for(int j=0;j<food.size();j++) {
+				System.out.println("recipe has name "+food.get(j).getName()+" w quantity "+food.get(j).getQuantity());
+			}
+		}
 		
-		HashMap<String,FoodItem> tempmap=new HashMap<String,FoodItem>();
+//		HashMap<String,FoodItem> tempmap=new HashMap<String,FoodItem>();
 //		tempmap.put("chicken", temp1);
 //		
 //		
@@ -342,22 +348,36 @@ public class JDBC {
 	 */
 	
 	//receive new orders
-	public ArrayList<HashMap<String,FoodItem>> receiveNewOrders(int lastOrder){
+	public Order receiveNewOrder(int lastOrder){
 		
-		ArrayList<HashMap<String,FoodItem>> newOrders = new ArrayList<HashMap<String, FoodItem>>();
+		Order newOrder = new Order();
+		boolean neworderexists=false;
 		//take lastOrderNum,
 		//find order after that
 		//remove from db
 		//save into arraylist
-		int arraylistindex=0;
+		//int arraylistindex=0;
 		
+		//get next order number
 		int orderNum=lastOrder+1;
+//		newOrder = new Order(); 
+		newOrder.setOrderNum(orderNum);
 		try
 		{
 			enterTestDatabase();
 			
-			ResultSet rs = s.executeQuery("select * from orders where ordernumber ='" + orderNum + "'");
-			if(rs.next()) {
+			//only generating one row for some reaeson, should be two
+			ResultSet rs = s.executeQuery("select * from orders where ordernumber =" + orderNum + "");
+			System.out.println("created result set");
+			//if there is an order
+			if(rs.next()) {  //loops through rows automatically
+				System.out.println("order set not null");
+				//only instatiate if there is a new order, else want to return null object
+				neworderexists=true;
+				
+				System.out.println("row count "+rs.getRow());
+				//only pulling 1 row??
+				
 				//for every suborder number
 				//get burger name
 				//check burger name in recipes
@@ -365,34 +385,55 @@ public class JDBC {
 				//save each as food item
 				//save into hashmap
 				
+				int subOrderCount=1;
 			
 				String burgername=rs.getString("burger");
-				
-				ResultSet ing=s.executeQuery("select * from recipe where burgername='"+burgername+"'");
-				
-				
+				System.out.println(burgername);
+				ResultSet ing=s.executeQuery("select * from recipes where burgername='"+burgername+"'");
+				System.out.println("create recipe set");
+				//if there is a recipe with burgername
 				if(ing.next()) {
-					ResultSetMetaData rsmd=ing.getMetaData();
-					int columnCount = rsmd.getColumnCount();
+					System.out.println("recipe set not null");
+					//create a burger object
+					Burger burgerTemp=new Burger();
+					//name it from recipe
+					burgerTemp.setName(burgername);
+					//give it a subordernumber
+					burgerTemp.setSubOrderNum(subOrderCount);
 					
+					//find column heading names
+					ResultSetMetaData rsmd=ing.getMetaData();
+					//find number of columns
+					int columnCount = rsmd.getColumnCount();
+									
 					// The column count starts from 1
+					//cycle through all columns to get ingredient quantities out
 					for (int i = 2; i <= columnCount; i++ ) {
 					  String name = rsmd.getColumnName(i);
 					  int foodquan=ing.getInt(name);
 					  if(foodquan>0) {
 						  FoodItem foodTemp=new FoodItem("",name,foodquan,0,0);
-						  newOrders.get(i).put(name, foodTemp);
+						  						 
+						  burgerTemp.addIngredient(foodTemp);
+						  
 					  } //end if quan>0
-					  
-					  
-					  
+					  					  
 					} //end for all columns
 					
-					ing.next();
-					arraylistindex++;
+					//increase counters to get to next burger in order set
+					subOrderCount++;
+					newOrder.addBurger(burgerTemp);
+//					ing.next();
+					//arraylistindex++;
 	
 				} //end if ing.next
 				
+				//need to get a new burgername here
+				
+//				System.out.println("if recipe set null");
+				
+				//can't put this back in, will complain
+//				rs.next();
 			} //if rs.next
 			
 		} //end try
@@ -403,7 +444,7 @@ public class JDBC {
 			e.printStackTrace();
 		}
 		
-		return newOrders;
+		return newOrder;
 	}
 
 
