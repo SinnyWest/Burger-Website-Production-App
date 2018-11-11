@@ -351,6 +351,7 @@ public class JDBC {
 	public Order receiveNewOrder(int lastOrder){
 		
 		Order newOrder = new Order();
+		
 		boolean neworderexists=false;
 		//take lastOrderNum,
 		//find order after that
@@ -359,20 +360,24 @@ public class JDBC {
 		//int arraylistindex=0;
 		
 		//get next order number
-		int orderNum=lastOrder+1;
+		
+		int orderNum = lastOrder + 1;
+		
 //		newOrder = new Order(); 
 		newOrder.setOrderNum(orderNum);
+		
 		try
 		{
 			enterTestDatabase();
 			
-			//only generating one row for some reaeson, should be two
+			//only generating one row for some reason, should be two
 			ResultSet rs = s.executeQuery("select * from orders where ordernumber =" + orderNum + "");
 			System.out.println("created result set");
+			
 			//if there is an order
 			if(rs.next()) {  //loops through rows automatically
 				System.out.println("order set not null");
-				//only instatiate if there is a new order, else want to return null object
+				//only instantiate if there is a new order, else want to return null object
 				neworderexists=true;
 				
 				System.out.println("row count "+rs.getRow());
