@@ -33,52 +33,66 @@ public class JDBC {
 
 		//System.out.println("Test food item: " + testFoodItem.getName());
 
-//		int rowCount;
-//
-//		rowCount = jdbc.testTableSize();
-//
-//		System.out.println("Row count of ingredients table: " + rowCount);
-		
-//		boolean login;
-//		
-//		login = jdbc.adminLogin("testuser", "testpass");
-//		
-//		System.out.println("Login is true?: " + login);
-		
-//		Burger stockLevels;
-//		
-//		stockLevels = jdbc.checkStockLevels();
-//		
-//		ArrayList<FoodItem> ings = stockLevels.getIngredientList();
-//		for(int i=0;i<ings.size();i++) {
-//			System.out.println("Stock levels of "+ings.get(i).getName()+" is "+ings.get(i).getQuantity());
-//		}
-//		boolean restock = jdbc.reorderStock(stockLevels);
-//		
-//		System.out.println("restock: " + restock);
-		
-		
-//		System.out.println("Stock levels of");
-//		FoodItem temp1=new FoodItem("","chicken",1,0,0);
-//		FoodItem temp2 = new FoodItem("","beef",1,0,0);
-		
-		Order newOrder = jdbc.receiveNewOrder(0);
-		ArrayList<Burger> burgers = newOrder.getBurgerList();
-		System.out.println(burgers.size());
-		for(int i=0;i<burgers.size();i++) {
-			
-			System.out.println(burgers.get(i).getName());
-			ArrayList<FoodItem> food = burgers.get(i).getIngredientList();
-			for(int j=0;j<food.size();j++) {
-				System.out.println("recipe has name "+food.get(j).getName()+" w quantity "+food.get(j).getQuantity());
-			}
-		}
-		
-//		HashMap<String,FoodItem> tempmap=new HashMap<String,FoodItem>();
-//		tempmap.put("chicken", temp1);
-//		
-//		
+		//		int rowCount;
+		//
+		//		rowCount = jdbc.testTableSize();
+		//
+		//		System.out.println("Row count of ingredients table: " + rowCount);
+
+		//		boolean login;
+		//		
+		//		login = jdbc.adminLogin("testuser", "testpass");
+		//		
+		//		System.out.println("Login is true?: " + login);
+
+		//		Burger stockLevels;
+		//		
+		//		stockLevels = jdbc.checkStockLevels();
+		//		
+		//		ArrayList<FoodItem> ings = stockLevels.getIngredientList();
+		//		for(int i=0;i<ings.size();i++) {
+		//			System.out.println("Stock levels of "+ings.get(i).getName()+" is "+ings.get(i).getQuantity());
+		//		}
+		//		boolean restock = jdbc.reorderStock(stockLevels);
+		//		
+		//		System.out.println("restock: " + restock);
+
+
+		//		System.out.println("Stock levels of");
+		//		FoodItem temp1=new FoodItem("","chicken",1,0,0);
+		//		FoodItem temp2 = new FoodItem("","beef",1,0,0);
+
+
+		// chop up this code to reflect receiveNewOrder now returning a burger object
+		// no longer need burger arraylist, potentially may delete order class too.
+		// don't need to loop through anything as only handling 1 burger object at a time, chronologically.
+		Burger newBurger = jdbc.receiveNewOrder();
+
+		//		ArrayList<Burger> burgers = newBurger.getBurgerList();
+
+		//		System.out.println("number of burgers in arraylist: " + burgers.size());
+		//		
+		//		for(int i = 0; i < burgers.size(); i++) {
+		//			
+		//			System.out.println("burger at index " + i + " name: " + burgers.get(i).getName());
+		//			
+		//			ArrayList<FoodItem> food = burgers.get(i).getIngredientList();
+		//			
+		//			for(int j = 0; j < food.size(); j++) {
+		//				
+		//				System.out.println("recipe has name " + food.get(j).getName()
+		//						+ " with quantity " + food.get(j).getQuantity());
+		//			}
+
+		System.out.println("Received burger order of name: " + newBurger.getName());
+
+
 	}
+
+	//		HashMap<String,FoodItem> tempmap=new HashMap<String,FoodItem>();
+	//		tempmap.put("chicken", temp1);
+	//		
+	//		
 	// this is tested as working 8/11
 	public void enterTestDatabase() {
 
@@ -131,7 +145,7 @@ public class JDBC {
 			//            connection.close();
 		}
 		catch(Exception e){
-		
+
 			System.out.println("StockLevelCheck Error: " + e.toString()); 
 
 			e.printStackTrace();               
@@ -173,9 +187,9 @@ public class JDBC {
 			connection.close();
 		}
 		catch(Exception e){
-		
+
 			System.out.println("StockLevelCheck Error: " + e.toString());
-			
+
 			e.printStackTrace();
 		}
 		return row;
@@ -199,9 +213,9 @@ public class JDBC {
 
 			//trying to count row numbers
 			while(rs.next()) {
-				
+
 				rs.next();
-				
+
 				rowCount = rs.getRow();
 			}
 			rs.close();
@@ -220,7 +234,7 @@ public class JDBC {
 	/*
 	 * Admin methods
 	 */
-	
+
 	// this is tested as working 8/11
 	//admin login
 	public boolean adminLogin(String un, String pass){
@@ -230,7 +244,7 @@ public class JDBC {
 			enterTestDatabase();
 
 			ResultSet rs = s.executeQuery("select * from adminlogin where username ='" + un 
-											+ "' and password='" + pass + "'");
+					+ "' and password='" + pass + "'");
 			if(! rs.next())
 				res = false;            
 			rs.close();
@@ -240,17 +254,17 @@ public class JDBC {
 		{
 			System.out.println("LogIn Error: "+e.toString());
 			e.printStackTrace();
-			
+
 			res = false;
 		}
 		return res;
 	}  
-	
+
 	//tested as working 9/11
 	//check ingredient stock
 	//do we want this to pass out a burger object for simplicity??
 	public Burger checkStockLevels (){
-		
+
 		Burger stockLevel = new Burger();
 		//HashMap<String,FoodItem> stockLevel=new HashMap<String,FoodItem>();
 		//query all items in ingredients
@@ -259,22 +273,22 @@ public class JDBC {
 			enterTestDatabase();
 
 			ResultSet rs = s.executeQuery("select * from Ingredients");
-			
+
 			//seperate out rows
 			//pull data from rows
 			//load into fooditem objects
 			//load into hashmap
-			
+
 			while(rs.next()) {
-				
+
 				String category=rs.getString("category");
 				String name=rs.getString("ingredient");
 				int quantity=rs.getInt("quantityinstock");
 				int minLevel=rs.getInt("restocklevel");
 				double price=rs.getDouble("price");
-				
+
 				FoodItem foodTemp=new FoodItem(category, name, quantity, minLevel, price);
-				
+
 				stockLevel.addIngredient(foodTemp);
 			}
 			rs.close();
@@ -283,7 +297,7 @@ public class JDBC {
 		catch(Exception e)
 		{
 			System.out.println("StockLevelCheck Error: " + e.toString());
-			
+
 			e.printStackTrace();
 		}
 		return stockLevel;
@@ -292,7 +306,7 @@ public class JDBC {
 	//tested as working 9/11
 	//reorder ingredients
 	public boolean reorderStock(Burger toReorder) {
-		
+
 		boolean added=true;
 
 		try
@@ -305,13 +319,13 @@ public class JDBC {
 			ArrayList<FoodItem> toRestock=toReorder.getIngredientList();
 
 			for(int i=0;i<toRestock.size();i++) {
-				
+
 				//pull ingredient name from arraylist
 				String name=toRestock.get(i).getName();
-				
+
 				//get ingredient row
 				ResultSet rs = s.executeQuery("select * from ingredients where ingredient ='" + name + "'");
-				
+
 				//if ingredient in table, update stock level
 				if(rs.next()) {
 					//get existing quantity
@@ -323,7 +337,7 @@ public class JDBC {
 
 					//put new quantity into table
 					int rsRestock = s.executeUpdate("update ingredients set quantityinstock = '" + quantitySum 
-														+ "' where ingredient = '" + name + "'");
+							+ "' where ingredient = '" + name + "'");
 					//unsure how to use this int to tell if insertion was successful or not
 					System.out.println("rsRestock int " + rsRestock);
 				}else {
@@ -346,118 +360,84 @@ public class JDBC {
 	/*
 	 * Kitchen methods
 	 */
-	
+
+	// tested as working 13/11
 	//receive new orders
-	public Order receiveNewOrder(int lastOrder){
-		
-		Order newOrder = new Order();
-		
-		boolean neworderexists=false;
-		//take lastOrderNum,
-		//find order after that
-		//remove from db
-		//save into arraylist
-		//int arraylistindex=0;
-		
-		//get next order number
-		
-		int orderNum = lastOrder + 1;
-		
-//		newOrder = new Order(); 
-		newOrder.setOrderNum(orderNum);
-		
+	public Burger receiveNewOrder(){
+
+		Burger newBurger = null;
+
+		boolean neworderexists = false;
+
 		try
 		{
-			enterTestDatabase();
-			
-			//only generating one row for some reason, should be two
-			ResultSet rs = s.executeQuery("select * from orders where ordernumber =" + orderNum + "");
-			System.out.println("created result set");
-			
+			enterTestDatabase();		
+
+			// query limits to 1 result that picks up the oldest "new" order.
+			ResultSet rs = s.executeQuery("select * from orders where orderstate = 'new' order by ordernumber asc limit 1");
+
 			//if there is an order
 			if(rs.next()) {  //loops through rows automatically
-				System.out.println("order set not null");
+
 				//only instantiate if there is a new order, else want to return null object
-				neworderexists=true;
-				
-				System.out.println("row count "+rs.getRow());
-				//only pulling 1 row??
-				
-				//for every suborder number
-				//get burger name
-				//check burger name in recipes
-				//pull out ingredients
-				//save each as food item
-				//save into hashmap
-				
-				int subOrderCount=1;
-			
-				String burgername=rs.getString("burger");
-				System.out.println(burgername);
-				ResultSet ing=s.executeQuery("select * from recipes where burgername='"+burgername+"'");
-				System.out.println("create recipe set");
+				neworderexists = true;
+
+				newBurger = new Burger();
+
+				// get name, ordernumber, and subordernumber of burger
+				String burgerName = rs.getString("burger");
+				int orderNum = rs.getInt("ordernumber");
+				int subOrderNum = rs.getInt("subordernumber");
+
+				ResultSet ing = s.executeQuery("select * from recipes where burgername = '" + burgerName + "'");
+
 				//if there is a recipe with burgername
 				if(ing.next()) {
-					System.out.println("recipe set not null");
-					//create a burger object
-					Burger burgerTemp=new Burger();
-					//name it from recipe
-					burgerTemp.setName(burgername);
-					//give it a subordernumber
-					burgerTemp.setSubOrderNum(subOrderCount);
-					
+
+					// set name, ordernumber, and subordernumber in burger object	
+					newBurger.setName(burgerName);
+					newBurger.setOrderNum(orderNum);
+					newBurger.setSubOrderNum(subOrderNum);
+
 					//find column heading names
-					ResultSetMetaData rsmd=ing.getMetaData();
+					ResultSetMetaData rsmd = ing.getMetaData();
+
 					//find number of columns
 					int columnCount = rsmd.getColumnCount();
-									
+
 					// The column count starts from 1
 					//cycle through all columns to get ingredient quantities out
-					for (int i = 2; i <= columnCount; i++ ) {
-					  String name = rsmd.getColumnName(i);
-					  int foodquan=ing.getInt(name);
-					  if(foodquan>0) {
-						  FoodItem foodTemp=new FoodItem("",name,foodquan,0,0);
-						  						 
-						  burgerTemp.addIngredient(foodTemp);
-						  
-					  } //end if quan>0
-					  					  
-					} //end for all columns
-					
-					//increase counters to get to next burger in order set
-					subOrderCount++;
-					newOrder.addBurger(burgerTemp);
-//					ing.next();
-					//arraylistindex++;
-	
-				} //end if ing.next
-				
-				//need to get a new burgername here
-				
-//				System.out.println("if recipe set null");
-				
-				//can't put this back in, will complain
-//				rs.next();
-			} //if rs.next
-			
-		} //end try
+					for (int i = 2; i <= columnCount; i++) {
+
+						String name = rsmd.getColumnName(i);
+
+						int foodquan = ing.getInt(name);
+
+						if(foodquan > 0) {
+
+							FoodItem foodTemp = new FoodItem("", name, foodquan, 0, 0);
+
+							newBurger.addIngredient(foodTemp);
+						} 
+					} 
+				} 
+			} 
+		} 
 		catch(Exception e)
 		{
 			System.out.println("UpdateState Error: " + e.toString());
-			
+
 			e.printStackTrace();
 		}
-		
-		return newOrder;
+		return newBurger;
 	}
 
 
 
 	//update order progress
 	public boolean updateOrderProgress(int orderNum, int subOrderNum, String state) {
-		
-		boolean updated=true;
+
+		boolean updated = true;
 
 		try
 		{
@@ -470,13 +450,13 @@ public class JDBC {
 			//change table name
 			//get ingredient row
 			ResultSet rs = s.executeQuery("select State from crookfion_dictionary " + "where OrderNum ='" 
-											+ orderNum + "' and SubOrderNum='" + subOrderNum + "'");
+					+ orderNum + "' and SubOrderNum='" + subOrderNum + "'");
 			//if order is in table, update state
 			if(rs.next()) {
 
 				//put new state into table
 				int rsUpdateState = s.executeUpdate("update Orders set State = '"+state+"' " + "where OrderNum ='"
-														+ orderNum + "' and SubOrderNum='" + subOrderNum + "'");
+						+ orderNum + "' and SubOrderNum='" + subOrderNum + "'");
 				//unsure how to use this int to tell if insertion was successful or not
 
 			}else {
@@ -488,7 +468,7 @@ public class JDBC {
 		catch(Exception e)
 		{
 			System.out.println("UpdateState Error: " + e.toString());
-			
+
 			e.printStackTrace();
 		}
 		return updated;
@@ -515,7 +495,7 @@ public class JDBC {
 					+ "where  ='"+orderNum+"'");
 		} 
 		catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 		return orderNum;
@@ -525,7 +505,7 @@ public class JDBC {
 	//update order progress
 
 	public String checkOrderProgress(int orderNum) {
-		
+
 		String state=null;
 		int rowNum=0;
 		int sum=0;
@@ -555,19 +535,19 @@ public class JDBC {
 					+ "where OrderNum ='" + orderNum + "'");
 			//loop through every row
 			while(rs.next()) {
-				
+
 				rs.next();
 
 				String stateTemp=rs.getString("State");
-				
+
 				if(stateTemp.equals("In Progress")) {
 
 					sum=sum+1;
-					
+
 				}else if(stateTemp.equals("Done")) {
 
 					sum=sum+2;
-					
+
 				} //no final else, don't want to add anything
 				rowNum++;        
 			}

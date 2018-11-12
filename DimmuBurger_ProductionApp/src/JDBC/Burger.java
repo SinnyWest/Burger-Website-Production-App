@@ -7,6 +7,8 @@ public class Burger {
 	private ArrayList<FoodItem> ingredients = new ArrayList<FoodItem>();
 	private String burgerName;
 	private int subOrderNum;
+	private int orderNum;
+	private String state;
 	
 	public Burger() {
 		
@@ -34,5 +36,21 @@ public class Burger {
 	
 	public int getSubOrderNum() {
 		return this.subOrderNum;
+	}
+
+	public int getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(int orderNum) {
+		this.orderNum = orderNum;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }
