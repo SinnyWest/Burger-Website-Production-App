@@ -20,7 +20,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-
 //text aligns to wrong plae on startup, fixed on refresh
 
 
