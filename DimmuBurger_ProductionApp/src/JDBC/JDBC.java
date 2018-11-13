@@ -71,7 +71,8 @@ public class JDBC {
 	//		HashMap<String,FoodItem> tempmap=new HashMap<String,FoodItem>();
 	//		tempmap.put("chicken", temp1);
 	//		
-	//		
+	//	
+	
 	// this is tested as working 8/11
 	public void enterTestDatabase() {
 
@@ -451,96 +452,98 @@ public class JDBC {
 	/*
 	 * Customer methods
 	 */
+	// don't need customer methods anymore as this is handled by the web end.
+	// keeping these here for now, just in case.
 
-	//get available ingredients
-	//use admin checkStockLevels method
-
-
-	//order burger(s)
-	public int placeOrder(ArrayList<HashMap> order) {
-
-		int orderNum = 0;
-
-		enterTestDatabase();
-
-		try {
-			ResultSet rs = s.executeQuery("select * from orders "
-					+ "where  ='"+orderNum+"'");
-		} 
-		catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		return orderNum;
-	}
-
-
-	//update order progress
-
-	public String checkOrderProgress(int orderNum) {
-
-		String state=null;
-		int rowNum=0;
-		int sum=0;
-
-		try
-		{
-			//         String databaseUser = "ahmed";
-			//         String databaseUserPass = "tmp123";           
-			//         Class.forName("org.postgresql.Driver");
-			//         Connection connection = null;            
-			//         String url = "jdbc:postgresql://db.ecs.vuw.ac.nz/"+databaseUser+"_jdbc";
-			//         connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
-			//         Statement s = connection.createStatement();
-
-			enterTestDatabase();
-
-			//check order is in db
-			//if so, get all rows for that order
-			//if some rows are in progress, return in progress
-			//if all rows are done, return done
-			//if all rows are received, return received
-
-
-			//change table name
-			//get all order rows
-			ResultSet rs = s.executeQuery("select * from crookfion_dictionary "
-					+ "where OrderNum ='" + orderNum + "'");
-			//loop through every row
-			while(rs.next()) {
-
-				rs.next();
-
-				String stateTemp=rs.getString("State");
-
-				if(stateTemp.equals("In Progress")) {
-
-					sum=sum+1;
-
-				}else if(stateTemp.equals("Done")) {
-
-					sum=sum+2;
-
-				} //no final else, don't want to add anything
-				rowNum++;        
-			}
-
-			//if all listed as received, will all be 0
-			if(sum==0) {
-				state="Order received";
-			} else if(sum==(rowNum*2)) {	//if all listed as complete, will be 2*rowNum
-				state="Order complete";
-			}else {						//anything else, will be in progress
-				state="Order in progress";
-			}
-			connection.close();
-		}
-		catch(Exception e)
-		{
-			System.out.println("CheckState Error: " + e.toString());
-			e.printStackTrace();
-		}
-		return state;
-	}
+//	//get available ingredients
+//	//use admin checkStockLevels method
+//
+//
+//	//order burger(s)
+//	public int placeOrder(ArrayList<HashMap> order) {
+//
+//		int orderNum = 0;
+//
+//		enterTestDatabase();
+//
+//		try {
+//			ResultSet rs = s.executeQuery("select * from orders "
+//					+ "where  ='"+orderNum+"'");
+//		} 
+//		catch (SQLException e) {
+//
+//			e.printStackTrace();
+//		}
+//		return orderNum;
+//	}
+//
+//
+//	//update order progress
+//
+//	public String checkOrderProgress(int orderNum) {
+//
+//		String state=null;
+//		int rowNum=0;
+//		int sum=0;
+//
+//		try
+//		{
+//			//         String databaseUser = "ahmed";
+//			//         String databaseUserPass = "tmp123";           
+//			//         Class.forName("org.postgresql.Driver");
+//			//         Connection connection = null;            
+//			//         String url = "jdbc:postgresql://db.ecs.vuw.ac.nz/"+databaseUser+"_jdbc";
+//			//         connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
+//			//         Statement s = connection.createStatement();
+//
+//			enterTestDatabase();
+//
+//			//check order is in db
+//			//if so, get all rows for that order
+//			//if some rows are in progress, return in progress
+//			//if all rows are done, return done
+//			//if all rows are received, return received
+//
+//
+//			//change table name
+//			//get all order rows
+//			ResultSet rs = s.executeQuery("select * from crookfion_dictionary "
+//					+ "where OrderNum ='" + orderNum + "'");
+//			//loop through every row
+//			while(rs.next()) {
+//
+//				rs.next();
+//
+//				String stateTemp=rs.getString("State");
+//
+//				if(stateTemp.equals("In Progress")) {
+//
+//					sum=sum+1;
+//
+//				}else if(stateTemp.equals("Done")) {
+//
+//					sum=sum+2;
+//
+//				} //no final else, don't want to add anything
+//				rowNum++;        
+//			}
+//
+//			//if all listed as received, will all be 0
+//			if(sum==0) {
+//				state="Order received";
+//			} else if(sum==(rowNum*2)) {	//if all listed as complete, will be 2*rowNum
+//				state="Order complete";
+//			}else {						//anything else, will be in progress
+//				state="Order in progress";
+//			}
+//			connection.close();
+//		}
+//		catch(Exception e)
+//		{
+//			System.out.println("CheckState Error: " + e.toString());
+//			e.printStackTrace();
+//		}
+//		return state;
+//	}
 
 }

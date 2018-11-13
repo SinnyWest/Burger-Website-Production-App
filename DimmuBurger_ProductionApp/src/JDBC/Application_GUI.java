@@ -119,6 +119,16 @@ public class Application_GUI {
 	         }          
 	      });
 		
+		kitchenBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+			
+		});
+		
 		
 		
 	}
