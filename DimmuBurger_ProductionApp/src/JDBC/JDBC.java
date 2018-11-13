@@ -62,31 +62,10 @@ public class JDBC {
 		//		FoodItem temp1=new FoodItem("","chicken",1,0,0);
 		//		FoodItem temp2 = new FoodItem("","beef",1,0,0);
 
-
-		// chop up this code to reflect receiveNewOrder now returning a burger object
-		// no longer need burger arraylist, potentially may delete order class too.
-		// don't need to loop through anything as only handling 1 burger object at a time, chronologically.
-		Burger newBurger = jdbc.receiveNewOrder();
-
-		//		ArrayList<Burger> burgers = newBurger.getBurgerList();
-
-		//		System.out.println("number of burgers in arraylist: " + burgers.size());
-		//		
-		//		for(int i = 0; i < burgers.size(); i++) {
-		//			
-		//			System.out.println("burger at index " + i + " name: " + burgers.get(i).getName());
-		//			
-		//			ArrayList<FoodItem> food = burgers.get(i).getIngredientList();
-		//			
-		//			for(int j = 0; j < food.size(); j++) {
-		//				
-		//				System.out.println("recipe has name " + food.get(j).getName()
-		//						+ " with quantity " + food.get(j).getQuantity());
-		//			}
-
-		System.out.println("Received burger order of name: " + newBurger.getName());
-
-
+//		Burger newBurger = jdbc.receiveNewOrder();
+//		System.out.println("Received burger order of name: " + newBurger.getName());
+		
+//		boolean updateOrder = jdbc.updateOrderProgress( 6, 1, "received" );
 	}
 
 	//		HashMap<String,FoodItem> tempmap=new HashMap<String,FoodItem>();
@@ -433,8 +412,8 @@ public class JDBC {
 	}
 
 
-
-	//update order progress
+	// tested as working 13/11
+	// update order progress
 	public boolean updateOrderProgress(int orderNum, int subOrderNum, String state) {
 
 		boolean updated = true;
@@ -443,25 +422,19 @@ public class JDBC {
 		{
 			enterTestDatabase();
 
-			//check order is in db
-			//if so, update progress
-
-
-			//change table name
-			//get ingredient row
-			ResultSet rs = s.executeQuery("select State from crookfion_dictionary " + "where OrderNum ='" 
-					+ orderNum + "' and SubOrderNum='" + subOrderNum + "'");
-			//if order is in table, update state
+			// get ingredient row
+			ResultSet rs = s.executeQuery("select orderstate from orders " + "where ordernumber = '" + orderNum + 
+												"' and subordernumber = '" + subOrderNum + "'");
+			// if order is in table, update state
 			if(rs.next()) {
 
-				//put new state into table
-				int rsUpdateState = s.executeUpdate("update Orders set State = '"+state+"' " + "where OrderNum ='"
-						+ orderNum + "' and SubOrderNum='" + subOrderNum + "'");
-				//unsure how to use this int to tell if insertion was successful or not
-
-			}else {
-				//if there is already a definition for the word, then don't try to insert
-				updated=false;
+				// put new state into table
+				int rsUpdateState = s.executeUpdate("update orders set orderstate = '" + state + "' " 
+								+ "where ordernumber = '" + orderNum + "' and subordernumber = '" + subOrderNum + "'");
+			}
+			else {
+				// if there is no result set for burger, state is not updated
+				updated = false;
 			}
 			connection.close();
 		}
