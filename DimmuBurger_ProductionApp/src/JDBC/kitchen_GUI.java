@@ -105,7 +105,8 @@ public class kitchen_GUI {
 
 
 	}
-
+	
+	// old timer method, leaving here for now just in case.
 
 	/**
 	 * timer not working
