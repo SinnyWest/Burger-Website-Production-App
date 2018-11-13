@@ -378,7 +378,7 @@ public class Application_GUI {
 
 		//may need some changes to get visibility working right for button with initialization
 		inProg0.addActionListener(new ActionListener() {
-			
+				
 			public void actionPerformed(ActionEvent e) {
 				
 				inProg0.setVisible(false);

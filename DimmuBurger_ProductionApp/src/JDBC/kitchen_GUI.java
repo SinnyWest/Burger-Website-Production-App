@@ -64,37 +64,7 @@ public class kitchen_GUI {
 	public kitchen_GUI() {
 		setupTimer();
 		setupKitchenFrame();
-		//		populateArrayList();
-		//		populateArrayList();
-		//		populateArrayList();
-		//		 Burger newOrder = jdbc.receiveNewOrder();
-		//         //if new order exists
-		//         if(newOrder!=null) {
-		//
-		//       	  allOrders.add(newOrder);
-		//       	  //initializeKitchen();
-		////       	  boolean updated = jdbc.updateOrderProgress(newOrder.getOrderNum(), newOrder.getSubOrderNum(), recStr);
-		//       	  
-		//         }
-		//         Burger newOrder1 = jdbc.receiveNewOrder();
-		//         //if new order exists
-		//         if(newOrder1!=null) {
-		//
-		//       	  allOrders.add(newOrder1);
-		//       	boolean updated1 = jdbc.updateOrderProgress(newOrder1.getOrderNum(), newOrder1.getSubOrderNum(), recStr);
-		//       	  //initializeKitchen();
-		//       	  
-		//       	  
-		//         }
-		//         Burger newOrder2 = jdbc.receiveNewOrder();
-		//         //if new order exists
-		//         if(newOrder2!=null) {
-		//
-		//       	  allOrders.add(newOrder2);
-		//       	boolean updated2 = jdbc.updateOrderProgress(newOrder2.getOrderNum(), newOrder2.getSubOrderNum(), recStr);
-		//       	  //initializeKitchen();
-		//       	  
-		//         }
+		
 		initializeKitchen();
 
 		//setuptimer - to get new orders
@@ -106,48 +76,6 @@ public class kitchen_GUI {
 
 	}
 	
-	// old timer method, leaving here for now just in case.
-
-	/**
-	 * timer not working
-	 */
-	//	//want timer to work even if kitchen is not visible
-	//	public void setupTimer() {
-	//		
-	//		System.out.println("setup timer");
-	//		//currently set for 1 second refreshes, maybe change depending on interaction
-	//		//but only refreshes display if sommat new found
-	//		timer = new Timer(1000, new ActionListener() {
-	//			
-	//            public void actionPerformed(ActionEvent evt) {
-	//            	//every second
-	//            	//check db for new order
-	//            	//save order to local arraylist of burgers
-	//            	
-	//            	//not hitting this statement
-	//            	System.out.println("ping timer");
-	//            	
-	//              Burger newOrder = jdbc.receiveNewOrder();
-	//              //if new order exists
-	//              if(newOrder!=null) {
-	//            	  //add new burger to all orders list,
-	//            	  //redraw screen
-	//            	  
-	//            	  //ArrayList<FoodItem> ings = newOrder.getIngredientList(); 
-	//
-	//            	 // int ordNum=newOrder.getOrderNumber();
-	//            	  //int subOrdNum = newOrder.getSubOrderNum();
-	//            	  allOrders.add(newOrder);
-	//            	  boolean updated = jdbc.updateOrderProgress(newOrder.getOrderNum(), newOrder.getSubOrderNum(), recStr);
-	//            	  initializeKitchen();
-	//            	  
-	//              }
-	//            }
-	//
-	//        });
-	//
-	//	}
-
 	//want timer to work even if kitchen is not visible
 	public void setupTimer() {
 
@@ -217,15 +145,18 @@ public class kitchen_GUI {
 		//		}
 
 		//need to empty out display
-		for(int i=0;i<display.length;i++) {
-			display[i]=null;
+		for(int i = 0; i < display.length; i++) {
+			display[i] = null;
 		}
 
 		//copy start of allOrders into display
-		for(int i=0;i<allOrders.size();i++) {
-			if(i<display.length) {
-				display[i]=allOrders.get(i);
-				System.out.println("order input: "+allOrders.get(i).getName());
+		for(int i = 0; i < allOrders.size(); i++) {
+			
+			if(i < display.length) {
+				
+				display[i] = allOrders.get(i);
+				
+				System.out.println("order input: " + allOrders.get(i).getName());
 			}
 		}
 
