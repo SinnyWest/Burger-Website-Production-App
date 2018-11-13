@@ -66,34 +66,34 @@ public class kitchen_GUI {
 //		populateArrayList();
 //		populateArrayList();
 //		populateArrayList();
-		 Burger newOrder = jdbc.receiveNewOrder();
-         //if new order exists
-         if(newOrder!=null) {
-
-       	  allOrders.add(newOrder);
-       	  //initializeKitchen();
-       	  boolean updated = jdbc.updateOrderProgress(newOrder.getOrderNum(), newOrder.getSubOrderNum(), recStr);
-       	  
-         }
-         Burger newOrder1 = jdbc.receiveNewOrder();
-         //if new order exists
-         if(newOrder1!=null) {
-
-       	  allOrders.add(newOrder1);
-       	boolean updated1 = jdbc.updateOrderProgress(newOrder1.getOrderNum(), newOrder1.getSubOrderNum(), recStr);
-       	  //initializeKitchen();
-       	  
-       	  
-         }
-         Burger newOrder2 = jdbc.receiveNewOrder();
-         //if new order exists
-         if(newOrder2!=null) {
-
-       	  allOrders.add(newOrder2);
-       	boolean updated2 = jdbc.updateOrderProgress(newOrder2.getOrderNum(), newOrder2.getSubOrderNum(), recStr);
-       	  //initializeKitchen();
-       	  
-         }
+//		 Burger newOrder = jdbc.receiveNewOrder();
+//         //if new order exists
+//         if(newOrder!=null) {
+//
+//       	  allOrders.add(newOrder);
+//       	  //initializeKitchen();
+////       	  boolean updated = jdbc.updateOrderProgress(newOrder.getOrderNum(), newOrder.getSubOrderNum(), recStr);
+//       	  
+//         }
+//         Burger newOrder1 = jdbc.receiveNewOrder();
+//         //if new order exists
+//         if(newOrder1!=null) {
+//
+//       	  allOrders.add(newOrder1);
+//       	boolean updated1 = jdbc.updateOrderProgress(newOrder1.getOrderNum(), newOrder1.getSubOrderNum(), recStr);
+//       	  //initializeKitchen();
+//       	  
+//       	  
+//         }
+//         Burger newOrder2 = jdbc.receiveNewOrder();
+//         //if new order exists
+//         if(newOrder2!=null) {
+//
+//       	  allOrders.add(newOrder2);
+//       	boolean updated2 = jdbc.updateOrderProgress(newOrder2.getOrderNum(), newOrder2.getSubOrderNum(), recStr);
+//       	  //initializeKitchen();
+//       	  
+//         }
 		initializeKitchen();
 		
 		//setuptimer - to get new orders
@@ -111,6 +111,7 @@ public class kitchen_GUI {
 	 */
 	//want timer to work even if kitchen is not visible
 	public void setupTimer() {
+		
 		System.out.println("setup timer");
 		//currently set for 1 second refreshes, maybe change depending on interaction
 		//but only refreshes display if sommat new found
@@ -136,6 +137,7 @@ public class kitchen_GUI {
             	 // int ordNum=newOrder.getOrderNumber();
             	  //int subOrdNum = newOrder.getSubOrderNum();
             	  allOrders.add(newOrder);
+            	  boolean updated = jdbc.updateOrderProgress(newOrder.getOrderNum(), newOrder.getSubOrderNum(), recStr);
             	  initializeKitchen();
             	  
               }
