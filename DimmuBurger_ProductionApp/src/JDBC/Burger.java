@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Burger {
 	
 	private ArrayList<FoodItem> ingredients = new ArrayList<FoodItem>();
-	private String burgerName;
+	private int burgerName;
 	private int subOrderNum;
 	private int orderNum;
 	private String state;
@@ -22,11 +22,11 @@ public class Burger {
 		this.ingredients.add(fooditem);
 	}
 	
-	public void setName(String name) {
+	public void setName(int name) {
 		this.burgerName=name;
 	}
 	
-	public String getName() {
+	public int getName() {
 		return this.burgerName;
 	}
 	

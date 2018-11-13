@@ -364,7 +364,7 @@ public class JDBC {
 				newBurger = new Burger();
 
 				// get name, ordernumber, and subordernumber of burger
-				String burgerName = rs.getString("burger");
+				int burgerName = rs.getInt("burger");
 				int orderNum = rs.getInt("ordernumber");
 				int subOrderNum = rs.getInt("subordernumber");
 
