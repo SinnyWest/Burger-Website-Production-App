@@ -361,13 +361,14 @@ public class Application_GUI {
 		for(int i = 0; i < ings.size(); i++) {
 
 			if(ings.get(i).getQuantity() > 0) {
+				System.out.println("quantity "+ings.get(i).getQuantity());
 
 				FoodTxt.setText(FoodTxt.getText() + ings.get(i).getName() + "  " 
 						+ ings.get(i).getQuantity() + " ; ");
 			}	
 		}
 
-		FoodTxt.setText(FoodTxt.getText() + n);
+		//FoodTxt.setText(FoodTxt.getText() + n);
 		WordArea.add(FoodTxt);
 
 		Box BtnArea = createNewBtnBox(n);
@@ -796,12 +797,12 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		}
 
 		//setting the guess button attributes
-		goBackBtn1.setText("Go Back");
+		goBackBtn2.setText("Go Back");
 		//goBackBtn.setFont(Font.font(15));
 		increaseLableSize(goBackBtn1,160, 80);// to increase the size
 		con.gridx=nameCol;
 		con.gridy=sausY+8;
-		adminframe.add(goBackBtn1, con);
+		adminframe.add(goBackBtn2, con);
 
 
 		//setting the guess button attributes
@@ -825,7 +826,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 	//check this against heroku db
 	public void setupRowHashMap() {
 
-		rowCount.put("bread bun",breadY+1);
+		rowCount.put("burgerbun",breadY+1);
 		rowCount.put("junior", breadY+2);
 		rowCount.put("wrap", breadY+3);
 
