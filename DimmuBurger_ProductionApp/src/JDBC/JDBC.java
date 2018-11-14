@@ -318,12 +318,14 @@ public class JDBC {
 					//put new quantity into table
 					int rsRestock = s.executeUpdate("update ingredients set quantityinstock = '" + quantitySum 
 							+ "' where ingredient = '" + name + "'");
+					
 					//unsure how to use this int to tell if insertion was successful or not
 					System.out.println("rsRestock int " + rsRestock);
 				}else {
 					//if there is already a definition for the word, then don't try to insert
 					added=false;
 				}
+				rs.close();
 			}
 			connection.close();
 		}
@@ -363,6 +365,8 @@ public class JDBC {
 				neworderexists = true;
 
 				newBurger = new Burger();
+				
+				String name;
 
 				// get name, ordernumber, and subordernumber of burger
 				int burgerName = rs.getInt("burger");
@@ -378,6 +382,7 @@ public class JDBC {
 					newBurger.setName(burgerName);
 					newBurger.setOrderNum(orderNum);
 					newBurger.setSubOrderNum(subOrderNum);
+					System.out.println("inside ing ordernumber "+orderNum);
 
 					//find column heading names
 					ResultSetMetaData rsmd = ing.getMetaData();
@@ -388,20 +393,39 @@ public class JDBC {
 					// The column count starts from 1
 					//cycle through all columns to get ingredient quantities out
 					for (int i = 2; i <= columnCount; i++) {
-
-						String name = rsmd.getColumnName(i);
-
-						int foodquan = ing.getInt(name);
-
-						if(foodquan > 0) {
-
-							FoodItem foodTemp = new FoodItem("", name, foodquan, 0, 0);
-
-							newBurger.addIngredient(foodTemp);
-						} 
-					} 
-				} 
+						System.out.println("looping through recipe columns");
+						name = rsmd.getColumnName(i);
+						System.out.println("name "+name);
+						int foodQuan = ing.getInt(name);
+						System.out.println("foodQquan "+foodQuan);
+						if(foodQuan > 0) {
+							System.out.println("inside foodquan loop");
+							// in here, minus foodquan from quantity of name
+							// get current foodquan
+							
+							ResultSet rsStock = s.executeQuery("select quantityinstock from ingredients where ingredient = '" + name + "'");
+							
+							if(rsStock.next()) {
+								System.out.println("inside ingredients loop");
+								int stockQuan = rsStock.getInt("quantityinstock");
+								
+								int updateQuantity = s.executeUpdate("update ingredients set quantityinstock = '" + (stockQuan - foodQuan) 
+																			+ "' where ingredient = '" + name + "'");
+	
+								FoodItem foodTemp = new FoodItem("", name, foodQuan, 0, 0);
+								System.out.println("temp burger "+name+" quan "+foodQuan);
+								newBurger.addIngredient(foodTemp);
+							}
+							//this is closing early and only pulling out one ingredient
+							rsStock.close();
+						} //end if foodquan>0
+						
+					} //end for each col in recipe
+				} //if ing.next
+//				ing.close();
 			} 
+			rs.close();
+			connection.close();
 		} 
 		catch(Exception e)
 		{
@@ -409,6 +433,7 @@ public class JDBC {
 
 			e.printStackTrace();
 		}
+		
 		return newBurger;
 	}
 
@@ -437,6 +462,7 @@ public class JDBC {
 				// if there is no result set for burger, state is not updated
 				updated = false;
 			}
+			rs.close();
 			connection.close();
 		}
 		catch(Exception e)
