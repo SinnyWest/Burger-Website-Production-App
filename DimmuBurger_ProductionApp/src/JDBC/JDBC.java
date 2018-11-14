@@ -95,6 +95,33 @@ public class JDBC {
 		}
 	}
 
+	
+	public void enterHerokuDatabase() {
+        try {
+
+            String databaseUser = "elodciopfpuvmj";                //change
+            String databaseUserPass = "55344e1cdceb4b3b705df4d124d165d5e2bc45d9d2ee6f34a93235811330e10e";           //change        
+            Class.forName("org.postgresql.Driver");            //change
+            connection = null;
+            String url = "jdbc:postgresql://ec2-204-236-230-19.compute-1.amazonaws.com:5432/de9vonq92up9sm?user=elodciopfpuvmj&password=55344e1cdceb4b3b705df4d124d165d5e2bc45d9d2ee6f34a93235811330e10e&sslmode=require";    //change
+            
+//            String ConnectionString ="jdbc:postgresql://ec2-204-236-230-19.compute-1.amazonaws.com:5432/de9vonq92up9sm?user=elodciopfpuvmj&password=55344e1cdceb4b3b705df4d124d165d5e2bc45d9d2ee6f34a93235811330e10e&sslmode=require";
+//            String username = "elodciopfpuvmj";
+//            String password = "55344e1cdceb4b3b705df4d124d165d5e2bc45d9d2ee6f34a93235811330e10e";
+        
+            connection= DriverManager.getConnection(url, databaseUser, databaseUserPass);
+
+            //connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
+            s = connection.createStatement();
+        }
+        catch(Exception e){
+
+            System.out.println("Enter db Error: "+e.toString());
+
+            e.printStackTrace();
+        }
+    }
+	
 	// this is tested as working 8/11
 	public FoodItem testSelectQuery(String nm) {
 
@@ -122,7 +149,7 @@ public class JDBC {
 
 			}
 			rs.close();
-			//            connection.close();
+			connection.close();
 		}
 		catch(Exception e){
 
@@ -221,7 +248,8 @@ public class JDBC {
 		boolean res = true;
 		try
 		{       	
-			enterTestDatabase();
+//			enterTestDatabase();
+			enterHerokuDatabase();
 
 			ResultSet rs = s.executeQuery("select * from adminlogin where username ='" + un 
 					+ "' and password='" + pass + "'");
@@ -250,7 +278,8 @@ public class JDBC {
 		//query all items in ingredients
 		try
 		{       	
-			enterTestDatabase();
+			//enterTestDatabase();
+			enterHerokuDatabase();
 
 			ResultSet rs = s.executeQuery("select * from Ingredients");
 
@@ -291,7 +320,8 @@ public class JDBC {
 
 		try
 		{
-			enterTestDatabase();
+//			enterTestDatabase();
+			enterHerokuDatabase();
 
 			//for all items in hashmap
 			//check if name is in table
@@ -318,12 +348,14 @@ public class JDBC {
 					//put new quantity into table
 					int rsRestock = s.executeUpdate("update ingredients set quantityinstock = '" + quantitySum 
 							+ "' where ingredient = '" + name + "'");
+					
 					//unsure how to use this int to tell if insertion was successful or not
-					System.out.println("rsRestock int " + rsRestock);
+//					System.out.println("rsRestock int " + rsRestock);
 				}else {
 					//if there is already a definition for the word, then don't try to insert
 					added=false;
 				}
+				rs.close();
 			}
 			connection.close();
 		}
@@ -351,7 +383,8 @@ public class JDBC {
 
 		try
 		{
-			enterTestDatabase();		
+//			enterTestDatabase();
+			enterHerokuDatabase();		
 
 			// query limits to 1 result that picks up the oldest "new" order.
 			ResultSet rs = s.executeQuery("select * from orders where orderstate = 'new' order by ordernumber asc limit 1");
@@ -363,6 +396,8 @@ public class JDBC {
 				neworderexists = true;
 
 				newBurger = new Burger();
+				
+				String name;
 
 				// get name, ordernumber, and subordernumber of burger
 				int burgerName = rs.getInt("burger");
@@ -379,6 +414,11 @@ public class JDBC {
 					newBurger.setOrderNum(orderNum);
 					newBurger.setSubOrderNum(subOrderNum);
 
+					newBurger.setState("new");
+
+//					System.out.println("inside ing ordernumber "+orderNum);
+
+
 					//find column heading names
 					ResultSetMetaData rsmd = ing.getMetaData();
 
@@ -388,20 +428,52 @@ public class JDBC {
 					// The column count starts from 1
 					//cycle through all columns to get ingredient quantities out
 					for (int i = 2; i <= columnCount; i++) {
+//						System.out.println("looping through recipe columns");
+						name = rsmd.getColumnName(i);
+//						System.out.println("name "+name);
+						int foodQuan = ing.getInt(name);
+//						System.out.println("foodQquan "+foodQuan);
+						
+						
 
-						String name = rsmd.getColumnName(i);
+							if(foodQuan > 0) {
 
-						int foodquan = ing.getInt(name);
+								FoodItem foodTemp = new FoodItem("", name, foodQuan, 0, 0);
 
-						if(foodquan > 0) {
+								newBurger.addIngredient(foodTemp);
+							} 
+						}
 
-							FoodItem foodTemp = new FoodItem("", name, foodquan, 0, 0);
-
-							newBurger.addIngredient(foodTemp);
-						} 
-					} 
-				} 
-			} 
+						
+//						if(foodQuan > 0) {
+//							System.out.println("inside foodquan loop");
+//							// in here, minus foodquan from quantity of name
+//							// get current foodquan
+//							
+//							ResultSet rsStock = s.executeQuery("select quantityinstock from ingredients where ingredient = '" + name + "'");
+//							
+//							if(rsStock.next()) {
+//								System.out.println("inside ingredients loop");
+//								int stockQuan = rsStock.getInt("quantityinstock");
+//								
+////								int updateQuantity = s.executeUpdate("update ingredients set quantityinstock = '" + (stockQuan - foodQuan) 
+////																			+ "' where ingredient = '" + name + "'");
+//	
+//								FoodItem foodTemp = new FoodItem("", name, foodQuan, 0, 0);
+//								System.out.println("temp burger "+name+" quan "+foodQuan);
+//								newBurger.addIngredient(foodTemp);
+//							}
+//							//this is closing early and only pulling out one ingredient
+////							rsStock.close();
+//						} //end if foodquan>0
+						
+					} //end for each col in recipe
+				ing.close();
+				} //if ing.next
+				
+			 
+			rs.close();
+			connection.close();
 		} 
 		catch(Exception e)
 		{
@@ -409,6 +481,7 @@ public class JDBC {
 
 			e.printStackTrace();
 		}
+		
 		return newBurger;
 	}
 
@@ -421,7 +494,8 @@ public class JDBC {
 
 		try
 		{
-			enterTestDatabase();
+//			enterTestDatabase();
+			enterHerokuDatabase();
 
 			// get ingredient row
 			ResultSet rs = s.executeQuery("select orderstate from orders " + "where ordernumber = '" + orderNum + 
@@ -437,6 +511,7 @@ public class JDBC {
 				// if there is no result set for burger, state is not updated
 				updated = false;
 			}
+			rs.close();
 			connection.close();
 		}
 		catch(Exception e)
@@ -448,6 +523,61 @@ public class JDBC {
 		return updated;
 	}
 
+	
+	public boolean decreaseStock(Burger toReorder) {
+
+		boolean added=true;
+
+		try
+		{
+//			enterTestDatabase();
+			enterHerokuDatabase();
+
+			//for all items in hashmap
+			//check if name is in table
+			//if so, update stock quantity
+			ArrayList<FoodItem> toRestock=toReorder.getIngredientList();
+
+			for(int i=0;i<toRestock.size();i++) {
+
+				//pull ingredient name from arraylist
+				String name=toRestock.get(i).getName();
+
+				//get ingredient row
+				ResultSet rs = s.executeQuery("select * from ingredients where ingredient ='" + name + "'");
+
+				//if ingredient in table, update stock level
+				if(rs.next()) {
+					//get existing quantity
+					int quantityExist=rs.getInt("quantityinstock");
+
+					//get quanitity to increase by quantity from arraylist
+					int quantityRemove=toRestock.get(i).getQuantity();
+					int quantitySum=quantityExist-quantityRemove;
+
+					//put new quantity into table
+					int rsRestock = s.executeUpdate("update ingredients set quantityinstock = '" + quantitySum 
+							+ "' where ingredient = '" + name + "'");
+					
+					//unsure how to use this int to tell if insertion was successful or not
+//					System.out.println("rsRestock int " + rsRestock);
+				}else {
+					//if there is already a definition for the word, then don't try to insert
+					added=false;
+				}
+				rs.close();
+			}
+			connection.close();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Restock Error: " + e.toString());
+			e.printStackTrace();
+		}
+		return added;
+	}
+	
+	
 	//----------------------------------------------------------------------------------------------------------	
 	/*
 	 * Customer methods

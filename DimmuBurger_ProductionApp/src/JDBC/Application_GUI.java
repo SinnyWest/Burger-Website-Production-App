@@ -2,10 +2,14 @@ package JDBC;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -43,9 +47,10 @@ public class Application_GUI {
 	private String doneStr = "complete";
 
 	JLabel failedlogin = new JLabel("Sorry, please try again");
+	JLabel usernameLbl=new JLabel("Username:");
 	JTextField username = new JTextField();
-	JTextField password = new JTextField();
-
+	JLabel passwordLbl = new JLabel("Password:");
+	JTextField password = new JTextField();	
 	JButton loginBtn = new JButton("Login to Admin screen");
 	JButton kitchenBtn = new JButton("Go to Kitchen screen");
 	JButton goBackBtn1 = new JButton("Return to Login screen");
@@ -65,7 +70,7 @@ public class Application_GUI {
 	private ArrayList<String>food = new ArrayList<String>();
 	private JFrame adminframe;
 
-
+	JLabel ordTitle = new JLabel();
 
 	private GridBagLayout grid =new GridBagLayout();
 	private GridBagConstraints con = new GridBagConstraints();
@@ -85,7 +90,7 @@ public class Application_GUI {
 	private int breadY=1;
 	private int baseY=breadY+5;
 	private int prodY=baseY+6;
-	private int chesY=prodY+6;
+	private int chesY=prodY+10;	//increase size by 4
 	private int sausY=chesY+6;
 
 	private int nameCol=1;
@@ -96,34 +101,43 @@ public class Application_GUI {
 	HashMap<String,Integer> catRowCount = new HashMap<String,Integer>();
 	//Burger stock=new Burger();
 
-	JTextField orderBun;
-	JTextField orderJnr;
-	JTextField orderWrap;
-	JTextField orderBeef;
-	JTextField orderChic;
-	JTextField orderTofu;
-	JTextField orderFal;
-	JTextField orderLet;
-	JTextField orderTom;
-	JTextField orderOni;
-	JTextField orderCap;
-	JTextField orderSwi;
-	JTextField orderChed;
-	JTextField orderHal;
-	JTextField orderPan;
-	JTextField orderTomS;
-	JTextField orderBbq;
-	JTextField orderPea;
-	JTextField orderAio;
-	JTextField orderMayo;
-	JTextField orderMus;
-	JTextField orderCool;
+	JTextField orderBun=new JTextField();
+	JTextField orderJnr=new JTextField();
+	JTextField orderWrap=new JTextField();
+	
+	JTextField orderBeef=new JTextField();
+	JTextField orderChic=new JTextField();
+	JTextField orderTofu=new JTextField();
+	JTextField orderFal=new JTextField();
+	
+	JTextField orderLet=new JTextField();
+	JTextField orderTom=new JTextField();
+	JTextField orderOni=new JTextField();
+	JTextField orderCap=new JTextField();
+	JTextField orderAvo=new JTextField();	//4x new textfields
+	JTextField orderCar=new JTextField();
+	JTextField orderPine=new JTextField();
+	JTextField orderPic=new JTextField();
+	
+	JTextField orderSwi=new JTextField();
+	JTextField orderChed=new JTextField();
+	JTextField orderHal=new JTextField();
+	JTextField orderPan=new JTextField();
+	
+	JTextField orderTomS=new JTextField();
+	JTextField orderCur=new JTextField();
+	JTextField orderItal=new JTextField();
+	JTextField orderAio=new JTextField();
+	JTextField orderMayo=new JTextField();
+//	JTextField orderMus;
+//	JTextField orderCool;
 
 
 
 	//application class
 	public Application_GUI() {
 
+		setupLoginFrame();
 		initializeLogin();
 		setupKitchenFrame();
 		initializeKitchen();
@@ -133,39 +147,78 @@ public class Application_GUI {
 
 		setupTimer();
 	}
+	
+	public void setupLoginFrame() {
+		loginframe = new JFrame();
+		loginframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		loginframe.pack();
+		loginframe.setSize(800, 800);
+		
+		loginframe.setVisible(true);
+		
+		getBigger(usernameLbl, 9); 
+		increaseLableSize(usernameLbl,160, 80);//increase the size
+		
+		increaseLableSize(username,160, 80);//for the font size
+		getBigger(username,9);
+		
+		getBigger(passwordLbl, 9);
+		increaseLableSize(passwordLbl,160, 80);//increase the size
+		
+		increaseLableSize(password,160, 80);
+		getBigger(password,9);
+		
+		increaseLableSize(loginBtn,160, 80);
+		getBigger(loginBtn,6);
+		
+		increaseLableSize(kitchenBtn,250, 80);
+		getBigger(kitchenBtn,6);
+		
+	}
 
 	public void initializeLogin() {
 
-		loginframe = new JFrame();
+		
 
 		Box vbox = Box.createVerticalBox();
 
 		failedlogin.setVisible(false);
 
-		JLabel usernameLbl = new JLabel("Username:");
-
-		JLabel passwordLbl = new JLabel("Password:");
-
+		
+		
+		//usernameLbl.setBackground(Color.pink);
+		//usernameLbl.setOpaque(true); 
+		//passwordLbl.setBackground(Color.pink);
+		//passwordLbl.setOpaque(true);
+		
+		
+		
+		
 		vbox.add(failedlogin);
 		vbox.add(usernameLbl);
+		
 		vbox.add(username);
 		vbox.add(passwordLbl);
+		
 		vbox.add(password);
+		
 		vbox.add(loginBtn);
+		
 
 
 		JPanel left = new JPanel();
 		left.setSize(400, 600);
-		//left.setBackground(Color.BLUE);
+		left.setBackground(Color.yellow);
 		left.setVisible(true);
 		left.add(vbox);
 
 
 		JPanel right = new JPanel();
 		right.setSize(400, 600);
-		//right.setBackground(Color.RED);
+		right.setBackground(Color.pink);
 		right.setVisible(true);		
 		right.add(kitchenBtn);
+		
 
 
 		JSplitPane splitPane = new JSplitPane();
@@ -177,20 +230,25 @@ public class Application_GUI {
 		splitPane.setRightComponent(right);
 
 
-		loginframe.add(splitPane);
-		loginframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		loginframe.pack();
-		loginframe.setSize(800, 800);
-		loginframe.setVisible(true);
+//		loginframe.add(splitPane);
+		
+		
+		loginframe.getContentPane().removeAll();
+//		System.out.println("removing all ");
+
+		loginframe.getContentPane().add(splitPane);
+		loginframe.getContentPane().revalidate();
+		loginframe.getContentPane().repaint();
+//		System.out.println("end of intial k");
+		
 	}
 
 	private void initializeKitchen() {
 
 
-
 		//setupKitchenFrame();
 
-		System.out.println("setup kitchen");
+//		System.out.println("setup kitchen");
 
 		// empty out display
 		for(int i = 0; i < display.length; i++) {
@@ -229,12 +287,12 @@ public class Application_GUI {
 //		setOnClickListeners();
 
 		kitchenframe.getContentPane().removeAll();
-		System.out.println("removing all ");
+//		System.out.println("removing all ");
 
 		kitchenframe.getContentPane().add(Orders);
 		kitchenframe.getContentPane().revalidate();
 		kitchenframe.getContentPane().repaint();
-		System.out.println("end of intial k");
+//		System.out.println("end of intial k");
 	}
 
 	public void setupKitchenFrame() {
@@ -245,7 +303,37 @@ public class Application_GUI {
 		kitchenframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		kitchenframe.getContentPane().setLayout(new CardLayout(0, 0));
 		kitchenframe.setVisible(false);
-
+		
+		getBigger(ordTitle,6);
+		getBigger(goBackBtn1,6);
+		increaseLableSize(goBackBtn1,120,80);
+		
+		getBigger(inProg0,6);
+		increaseLableSize(inProg0,140,80);
+		getBigger(inProg1,6);
+		increaseLableSize(inProg1,140,80);
+		getBigger(inProg2,6);
+		increaseLableSize(inProg2,140,80);
+		getBigger(inProg3,6);
+		increaseLableSize(inProg3,140,80);
+		getBigger(inProg4,6);
+		increaseLableSize(inProg4,140,80);
+		
+		getBigger(done0,6);
+		increaseLableSize(done0,140,80);
+		getBigger(done1,6);
+		increaseLableSize(done1,140,80);
+		getBigger(done2,6);
+		increaseLableSize(done2,140,80);
+		getBigger(done3,6);
+		increaseLableSize(done3,140,80);
+		getBigger(done4,6);
+		increaseLableSize(done4,140,80);
+		
+		
+		
+		
+		
 	}
 
 	// timer is initialized with the production line app
@@ -253,7 +341,7 @@ public class Application_GUI {
 	// currently continues to run even if app if closed...
 	public void setupTimer() {
 
-		System.out.println("setup timer");
+//		System.out.println("setup timer");
 		//currently set for 1 second refreshes, maybe change depending on interaction
 		//but only refreshes display if sommat new found
 
@@ -277,6 +365,8 @@ public class Application_GUI {
 					// update order state
 					boolean updated = jdbc.updateOrderProgress(newOrder.getOrderNum(), newOrder.getSubOrderNum(), recStr);
 
+					boolean decreased=jdbc.decreaseStock(newOrder);
+					initializeAdmin();
 					// reinitialize kitchen screen to update orders accordingly
 					initializeKitchen();  
 				}
@@ -291,18 +381,18 @@ public class Application_GUI {
 		Box topBar = Box.createHorizontalBox();
 		topBar.add(goBackBtn1);
 
-		JLabel ordTitle = new JLabel("Total number of Orders: "+allOrders.size());
-		System.out.println("Total number of Orders: "+allOrders.size());
+		ordTitle.setText("Total number of Orders: "+allOrders.size());
+//		System.out.println("Total number of Orders: "+allOrders.size());
 
 		topBar.add(ordTitle);
-		System.out.println("created topbar");
+//		System.out.println("created topbar");
 
 		return topBar;
 	}
 
 	public Box createNewSubBox(int n) {
 
-		System.out.println("created subbox " + n);
+//		System.out.println("created subbox " + n);
 
 		Burger burger = display[n];
 		ArrayList<FoodItem> ings = burger.getIngredientList();
@@ -316,9 +406,11 @@ public class Application_GUI {
 
 		//maybe combine the two order labels into one?
 		JLabel lblOrder = new JLabel("Order# ");
+		getBigger(lblOrder,6);
 		OrderLbls.add(lblOrder);
 
 		JLabel lblOrderVal = new JLabel(Integer.toString(burger.getOrderNum()) + "  ");
+		getBigger(lblOrderVal,6);
 		OrderLbls.add(lblOrderVal);
 
 		//JLabel lblSuborder = new JLabel("SubOrder# ");
@@ -333,13 +425,15 @@ public class Application_GUI {
 		for(int i = 0; i < ings.size(); i++) {
 
 			if(ings.get(i).getQuantity() > 0) {
+//				System.out.println("quantity "+ings.get(i).getQuantity());
 
 				FoodTxt.setText(FoodTxt.getText() + ings.get(i).getName() + "  " 
 						+ ings.get(i).getQuantity() + " ; ");
 			}	
 		}
 
-		FoodTxt.setText(FoodTxt.getText() + n);
+		//FoodTxt.setText(FoodTxt.getText() + n);
+		getBigger(FoodTxt,6);
 		WordArea.add(FoodTxt);
 
 		Box BtnArea = createNewBtnBox(n);
@@ -359,15 +453,17 @@ public class Application_GUI {
 			//else inprog visible (true)
 			if(display[n].getState().equals(progStr) && display[n]!=null) {
 				inProg0.setVisible(false); 
-			}else
-			{ inProg0.setVisible(true); }
+			}else{
+				inProg0.setVisible(true); 
+			}
 
-			System.out.println("state "+display[n].getState());
+//			System.out.println("state "+display[n].getState());
 
 
 			//				inProg0.setVisible(true); //probably the right place for this
 
 			//we want to add them both, but maybe only one is visible
+			
 			BtnArea.add(inProg0);
 			BtnArea.add(done0);
 
@@ -409,22 +505,33 @@ public class Application_GUI {
 		}
 		return BtnArea;
 	}
+	
+	
 
 	public void setOnClickListeners() {
 
 
 
 		//login to admin screen
+		//Dimension maxSize = new Dimension(100, 100);
+		//loginBtn.setMaximumSize(maxSize);
+		//increaseLableSize(loginBtn,160, 80);
+		//getBigger(loginBtn,90);
 		loginBtn.addActionListener(new ActionListener() {
-
+			
 			public void actionPerformed(ActionEvent e) {
-
+				
+				//getBigger(loginBtn,150);
+		
+			//loginBtn.setSize(150, 75);
+		           // setMaximumSize(getSize(78));
 				boolean canLogin = jdbc.adminLogin(username.getText(), password.getText());
 
 				if(canLogin) {
 
 					loginframe.setVisible(false);
 					adminframe.setVisible(true);
+					adminframe.setBackground(Color.LIGHT_GRAY);
 					kitchenframe.setVisible(false);
 					//	        		initilizeKitchen();
 				} else {
@@ -437,6 +544,7 @@ public class Application_GUI {
 		});
 
 		// sets up kitchen page
+		//increaseLableSize(kitchenBtn,160, 80);
 		kitchenBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -451,10 +559,11 @@ public class Application_GUI {
 		});
 
 		//return from kitchen to login
+		//increaseLableSize(goBackBtn,160, 80);
 		goBackBtn1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
+				 
 				kitchenframe.setVisible(false);
 				adminframe.setVisible(false);
 				loginframe.setVisible(true);
@@ -465,6 +574,7 @@ public class Application_GUI {
 		//return from admin to login
 		//change button name
 		//create new button
+		//increaseLableSize(goBackBtn2,160, 80);
 		goBackBtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adminframe.setVisible(false);
@@ -479,6 +589,7 @@ public class Application_GUI {
 
 		//admin screen save new quantities to db
 		//action for Submit button
+		//increaseLableSize(submitBtn,160, 80);
 		submitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -491,6 +602,7 @@ public class Application_GUI {
 		}); 
 
 		//may need some changes to get visibility working right for button with initialization
+		
 		inProg0.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -555,11 +667,11 @@ public class Application_GUI {
 		done0.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListeners().length);
+//System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListeners().length);
 				jdbc.updateOrderProgress(allOrders.get(0).getOrderNum(),allOrders.get(0).getSubOrderNum(),doneStr);
 //				System.out.println("updated 0 "+updated);
-				System.out.println("name at 0 "+allOrders.get(0).getName());
-				System.out.println("state at 0 "+allOrders.get(0).getState());
+//				System.out.println("name at 0 "+allOrders.get(0).getName());
+//				System.out.println("state at 0 "+allOrders.get(0).getState());
 				allOrders.remove(0);
 //				System.out.println("name at 0 after remove "+allOrders.get(0).getName());
 				inProg0.setVisible(true);
@@ -567,7 +679,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 
 				//need to redraw kitchen
 				initializeKitchen();
-				System.out.println("after initial K in onclick done0");
+//				System.out.println("after initial K in onclick done0");
 			}          
 		});
 
@@ -575,13 +687,13 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		done1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListeners().length);
+				//System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListeners().length);
 				jdbc.updateOrderProgress(allOrders.get(1).getOrderNum(),allOrders.get(1).getSubOrderNum(),doneStr);
 				//	        	 display.remove(4);
-				System.out.println("state at 1 "+allOrders.get(1).getState());
+//				System.out.println("state at 1 "+allOrders.get(1).getState());
 				allOrders.remove(1);
 				inProg1.setVisible(true);
-				System.out.println("orders size "+allOrders.size());
+//				System.out.println("orders size "+allOrders.size());
 
 				//need to redraw kitchen
 				initializeKitchen();
@@ -591,12 +703,12 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		done2.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListeners().length);
+//				System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListeners().length);
 				jdbc.updateOrderProgress(allOrders.get(2).getOrderNum(),allOrders.get(2).getSubOrderNum(),doneStr);
 				//	        	 display.remove(2);
 				allOrders.remove(2);
 				inProg2.setVisible(true);
-				System.out.println("orders size "+allOrders.size());
+//				System.out.println("orders size "+allOrders.size());
 
 				//need to redraw kitchen
 				initializeKitchen();
@@ -606,12 +718,12 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		done3.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListeners().length);
+//				System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListeners().length);
 				jdbc.updateOrderProgress(allOrders.get(3).getOrderNum(),allOrders.get(3).getSubOrderNum(),doneStr);
 				//	        	 display.remove(2);
 				allOrders.remove(3);
 				inProg3.setVisible(true);
-				System.out.println("orders size "+allOrders.size());
+//				System.out.println("orders size "+allOrders.size());
 
 				//need to redraw kitchen
 				initializeKitchen();
@@ -626,7 +738,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 				//	        	 display.remove(2);
 				allOrders.remove(4);
 				inProg4.setVisible(true);
-				System.out.println("orders size "+allOrders.size());
+//				System.out.println("orders size "+allOrders.size());
 
 				//need to redraw kitchen
 				initializeKitchen();
@@ -640,16 +752,64 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		adminframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		adminframe.getContentPane().setLayout(grid);
 		adminframe.pack();
-		adminframe.setSize(800, 800);
+		adminframe.setSize(1000, 1000);
 		adminframe.setVisible(true);
 		setupRowHashMap();
 		setupHeadingHashMap();
 		//populateAdmin();
 		adminframe.setVisible(false);
 		//setActionListeners();
+		
+		getBigger(goBackBtn2,6);
+		increaseLableSize(goBackBtn2,120,80);
 
+		getBigger(submitBtn,6);
+		increaseLableSize(submitBtn,120,80);
+		
+		getBigger(orderBun,6) ;
+		getBigger(orderJnr,6) ;
+		getBigger(orderWrap,6) ;
+		getBigger(orderBeef,6) ;
+		getBigger(orderChic,6) ;
+		getBigger(orderFal,6) ;
+		getBigger(orderTofu,6) ;
+		getBigger(orderLet,6) ;
+		getBigger(orderTom,6) ;
+		getBigger(orderOni,6) ;
+		getBigger(orderCap,6) ;
+		getBigger(orderAvo,6) ;
+		getBigger(orderCar,6) ;
+		getBigger(orderPine,6) ;
+		getBigger(orderPic,6) ;
+		getBigger(orderSwi,6) ;
+		getBigger(orderChed,6) ;
+		getBigger(orderHal,6) ;
+		getBigger(orderPan,6) ;
+		getBigger(orderTomS,6) ;
+		getBigger(orderAio,6) ;
+		getBigger(orderMayo,6) ;
+		getBigger(orderItal,6) ;
+		getBigger(orderCur,6) ;
+		
 	}
+	public void getBigger(Component obj, int n) {
+		
+		Font f = obj.getFont();
 
+		  // create a new, smaller font from the current font
+		  Font f2 = new Font(f.getFontName(), f.getStyle(), f.getSize()+n);
+
+		  // set the new font in the editing area
+		  obj.setFont(f2);
+	}
+	
+	
+	public void increaseLableSize(Component obj,int width, int height) {
+		obj.setPreferredSize(new Dimension(width,height));
+	}
+	
+	
+	
 	public void initializeAdmin() {
 		adminframe.getContentPane().removeAll();
 		Burger stock=jdbc.checkStockLevels();
@@ -665,20 +825,22 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 			// bread1 in column 1, row 2
 			JLabel nameBun = new JLabel(ings.get(i).getName());
 			//nameBun.setFont(Font.font("Arial",  15));
+			getBigger(nameBun,6) ;
 			con.gridx=nameCol;
 			con.gridy=rowNum;
 			adminframe.add(nameBun, con);
 
 			// bread1 in column 2, row 2
 			JLabel quanBun = new JLabel(Integer.toString(ings.get(i).getQuantity()));
-			//quanBun.setFont(Font.font("Arial",  15));
+			
+			getBigger(quanBun,6) ;
 			con.gridx=quanCol;
 			con.gridy=rowNum;
 			adminframe.add(quanBun,con);
 
 			// bread1 in column 3, row 2
 			JLabel minBun = new JLabel(Integer.toString(ings.get(i).getMinLevel()));
-			//minBun.setFont(Font.font("Arial",  15));
+			getBigger(minBun,6) ;
 			con.gridx=minCol;
 			con.gridy=rowNum;
 			adminframe.add(minBun, con);
@@ -698,7 +860,8 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 			//bread headings
 			// Ing name in column 1, row 1
 			JLabel nameCat = new JLabel(cat);
-			// nameCat.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		
+			getBigger(nameCat,9) ;
 			con.fill = GridBagConstraints.HORIZONTAL;
 			con.weightx = 0.25;
 			con.gridx=breadX;
@@ -707,7 +870,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 
 			// Quan in column 2, row 1
 			JLabel quantityCat = new JLabel(quanTitle);
-			//quantityCat.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+			getBigger(quantityCat,9) ;
 			con.fill = GridBagConstraints.HORIZONTAL;
 			con.weightx = 0.25;
 			con.gridx=quanCol;
@@ -716,7 +879,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 
 			// restock in column 3, row 1
 			JLabel restockCat = new JLabel(minTitle);
-			//restockCat.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+			getBigger(restockCat,9) ;
 			con.fill = GridBagConstraints.HORIZONTAL;
 			con.weightx = 0.25;
 			con.gridx=minCol;
@@ -726,6 +889,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 			// toOrder in column 4, row 1
 			JLabel toOrderCat = new JLabel(reorderTitle);
 			//toOrderCat.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+			getBigger(toOrderCat,9) ;
 			con.fill = GridBagConstraints.HORIZONTAL;
 			con.weightx = 0.25;
 			con.gridx=reordCol;
@@ -735,18 +899,20 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		}
 
 		//setting the guess button attributes
-		goBackBtn1.setText("Go Back");
+		goBackBtn2.setText("Go Back");
 		//goBackBtn.setFont(Font.font(15));
+		//increaseLableSize(goBackBtn1,160, 80);// to increase the size
 		con.gridx=nameCol;
-		con.gridy=sausY+8;
-		adminframe.add(goBackBtn1, con);
+		con.gridy=sausY+6;
+		adminframe.add(goBackBtn2, con);
 
 
 		//setting the guess button attributes
 		submitBtn.setText("Submit");
 		//submitBtn.setFont(Font.font(15));
+		//increaseLableSize(submitBtn,160, 80);// to increase th size
 		con.gridx=reordCol;
-		con.gridy=sausY+8;
+		con.gridy=sausY+6;
 		adminframe.add(submitBtn, con);
 
 		setupTextFields();
@@ -762,7 +928,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 	//check this against heroku db
 	public void setupRowHashMap() {
 
-		rowCount.put("bread bun",breadY+1);
+		rowCount.put("burgerbun",breadY+1);
 		rowCount.put("junior", breadY+2);
 		rowCount.put("wrap", breadY+3);
 
@@ -775,19 +941,25 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		rowCount.put("tomato", prodY+2);
 		rowCount.put("onion", prodY+3);
 		rowCount.put("capsicum", prodY+4);
+		
+		//new lines
+		rowCount.put("avocado",prodY+5);
+		rowCount.put("carrot", prodY+6);
+		rowCount.put("pineapple", prodY+7);
+		rowCount.put("pickles", prodY+8);
 
 		rowCount.put("swiss", chesY+1);
 		rowCount.put("cheddar", chesY+2);
-		rowCount.put("haloumi", chesY+3);
+		rowCount.put("halloumi", chesY+3);
 		rowCount.put("paneer", chesY+4);
 
-		rowCount.put("tomato s", sausY+1);
-		rowCount.put("bbq", sausY+2);
-		rowCount.put("peanut", sausY+3);
-		rowCount.put("garlic aioli", sausY+4);
-		rowCount.put("mayo", sausY+5);
-		rowCount.put("mustard", sausY+6);
-		rowCount.put("cool ranch", sausY+7);
+		rowCount.put("tomatosauce", sausY+1);
+		rowCount.put("aioli", sausY+2);
+		rowCount.put("mayo", sausY+3);
+		rowCount.put("italian", sausY+4);
+		rowCount.put("curry", sausY+5);
+//		rowCount.put("mustard", sausY+6);
+//		rowCount.put("cool ranch", sausY+7);
 
 
 	}
@@ -805,8 +977,9 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 	//check against heroku db
 	public void setupTextFields() {
 		// bread1 in column 4, row 2
-		orderBun = new JTextField("0");
+		orderBun.setText("0");// = new JTextField("0");
 		//orderBun.setFont(Font.font("Arial",  15));
+		
 		con.fill = GridBagConstraints.HORIZONTAL;
 		con.weightx = 0.25;
 		con.gridx=reordCol;
@@ -814,152 +987,208 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		adminframe.add(orderBun, con);
 
 		// bread2 in column 4, row 3
-		orderJnr = new JTextField("0");
+		orderJnr.setText("0");// = new JTextField("0");
 		//orderJnr.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=breadY+2;
 		adminframe.add(orderJnr,con);
 
 		// bread3 in column 4, row 4
-		orderWrap = new JTextField("0");
+		orderWrap.setText("0");// = new JTextField("0");
 		//orderWrap.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=breadY+3;
 		adminframe.add(orderWrap, con);
 
 
 		// base1 in column 4, row 7
-		orderBeef = new JTextField("0");
+		orderBeef.setText("0");// = new JTextField("0");
 		//orderBeef.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=baseY+1;
 		adminframe.add(orderBeef, con);
 
 		// base1 in column 4, row 8
-		orderChic = new JTextField("0");
+		orderChic.setText("0");// = new JTextField("0");
 		//orderChic.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=baseY+2;
 		adminframe.add(orderChic, con);
 
 		// base3 in column 4, row 9
-		orderFal = new JTextField("0");
+		orderFal.setText("0");// = new JTextField("0");
 		//orderFal.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=baseY+3;
 		adminframe.add(orderFal, con);
 
 		// base4 in column 4, row 10
-		orderTofu = new JTextField("0");
+		orderTofu.setText("0");// = new JTextField("0");
 		//orderTofu.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=baseY+4;
 		adminframe.add(orderTofu, con);
 
 		// prod1 in column 4, row 13
-		orderLet = new JTextField("0");
+		orderLet.setText("0");// = new JTextField("0");
 		//orderLet.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=prodY+1;
 		adminframe.add(orderLet, con);
 
 		// prod2 in column 4, row 14
-		orderTom = new JTextField("0");
+		orderTom.setText("0");// = new JTextField("0");
 		//orderTom.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=prodY+2;
 		adminframe.add(orderTom, con);
 
 		// prod3 in column 4, row 15
-		orderOni = new JTextField("0");
+		orderOni.setText("0");// = new JTextField("0");
 		//orderOni.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=prodY+3;
 		adminframe.add(orderOni, con);
 
 		// prod4 in column 4, row 16
-		orderCap = new JTextField("0");
+		orderCap.setText("0");// = new JTextField("0");
 		//orderCap.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=prodY+4;
 		adminframe.add(orderCap, con);
+		
+		
+		// prod4 in column 4, row 16
+				orderAvo.setText("0");// = new JTextField("0");
+				//orderCap.setFont(Font.font("Arial",  15));
+				
+				con.gridx=reordCol;
+				con.gridy=prodY+5;
+				adminframe.add(orderAvo, con);
+				
+				// prod4 in column 4, row 16
+				orderCar.setText("0");// = new JTextField("0");
+				//orderCap.setFont(Font.font("Arial",  15));
+				
+				con.gridx=reordCol;
+				con.gridy=prodY+6;
+				adminframe.add(orderCar, con);
+				
+				// prod4 in column 4, row 16
+				orderPine.setText("0");// = new JTextField("0");
+				//orderCap.setFont(Font.font("Arial",  15));
+				
+				con.gridx=reordCol;
+				con.gridy=prodY+7;
+				adminframe.add(orderPine, con);
+								
+				// prod4 in column 4, row 16
+				orderPic.setText("0");// = new JTextField("0");
+				//orderCap.setFont(Font.font("Arial",  15));
+				
+				con.gridx=reordCol;
+				con.gridy=prodY+8;
+				adminframe.add(orderPic, con);
+		
+		
+		
+		
 
 		// ches1 in column 4, row 19
-		orderSwi = new JTextField("0");
+		orderSwi.setText("0");// = new JTextField("0");
 		//orderSwi.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=chesY+1;
 		adminframe.add(orderSwi, con);
 
 		// ches2 in column 4, row 20
-		orderChed = new JTextField("0");
+		orderChed.setText("0");// = new JTextField("0");
 		//orderChed.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=chesY+2;
 		adminframe.add(orderChed, con);
 
 		// ches3 in column 4, row 21
-		orderHal = new JTextField("0");
+		orderHal.setText("0");// = new JTextField("0");
 		//orderHal.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=chesY+3;
 		adminframe.add(orderHal, con);
 
 		// ches4 in column 4, row 22
-		orderPan = new JTextField("0");
+		orderPan.setText("0");// = new JTextField("0");
 		//orderPan.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=chesY+4;
 		adminframe.add(orderPan, con);
 
 		// saus1 in column 4, row 25
-		orderTomS = new JTextField("0");
+		orderTomS.setText("0");// = new JTextField("0");
 		//orderPan.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=sausY+1;
 		adminframe.add(orderTomS, con);
 
 		// saus2 in column 4, row 26
-		orderBbq = new JTextField("0");
+		orderAio.setText("0");// = new JTextField("0");
 		//orderPan.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
 		con.gridy=sausY+2;
-		adminframe.add(orderBbq, con);
-
-		// saus3 in column 4, row 27
-		orderPea = new JTextField("0");
-		//orderPan.setFont(Font.font("Arial",  15));
-		con.gridx=reordCol;
-		con.gridy=sausY+3;
-		adminframe.add(orderPea, con);
-
-		// saus4 in column 4, row 28
-		orderAio = new JTextField("0");
-		//orderPan.setFont(Font.font("Arial",  15));
-		con.gridx=reordCol;
-		con.gridy=sausY+4;
 		adminframe.add(orderAio, con);
 
-		// saus5 in column 4, row 29
-		orderMayo = new JTextField("0");
+		// saus3 in column 4, row 27
+		orderMayo.setText("0");// = new JTextField("0");
 		//orderPan.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
-		con.gridy=sausY+5;
+		con.gridy=sausY+3;
 		adminframe.add(orderMayo, con);
 
-		// saus6 in column 4, row 30
-		orderMus = new JTextField("0");
+		// saus4 in column 4, row 28
+		orderItal.setText("0");// = new JTextField("0");
 		//orderPan.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
-		con.gridy=sausY+6;
-		adminframe.add(orderMus, con);
+		con.gridy=sausY+4;
+		adminframe.add(orderItal, con);
 
-		// saus7 in column 4, row 25
-		orderCool = new JTextField("0");
+		// saus5 in column 4, row 29
+		orderCur.setText("0");// = new JTextField("0");
 		//orderPan.setFont(Font.font("Arial",  15));
+		
 		con.gridx=reordCol;
-		con.gridy=sausY+7;
-		adminframe.add(orderCool, con);
+		con.gridy=sausY+5;
+		adminframe.add(orderCur, con);
+
+//		// saus6 in column 4, row 30
+//		orderMus = new JTextField("0");
+//		//orderPan.setFont(Font.font("Arial",  15));
+//		con.gridx=reordCol;
+//		con.gridy=sausY+6;
+//		adminframe.add(orderMus, con);
+//
+//		// saus7 in column 4, row 25
+//		orderCool = new JTextField("0");
+//		//orderPan.setFont(Font.font("Arial",  15));
+//		con.gridx=reordCol;
+//		con.gridy=sausY+7;
+//		adminframe.add(orderCool, con);
 	}
 
 
@@ -967,8 +1196,8 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 	public void submitAction() {
 
 		Burger toReorder=new Burger();
-		FoodItem foodTemp=new FoodItem("","bread bun",Integer.parseInt(orderBun.getText()),0,0);
-		System.out.println(foodTemp.getName());
+		FoodItem foodTemp=new FoodItem("","burgerbun",Integer.parseInt(orderBun.getText()),0,0);
+//		System.out.println(foodTemp.getName());
 		toReorder.addIngredient(foodTemp);
 
 		foodTemp=new FoodItem("","junior",Integer.parseInt(orderJnr.getText()),0,0);
@@ -981,6 +1210,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		toReorder.addIngredient(foodTemp);
 		foodTemp=new FoodItem("","tofu",Integer.parseInt(orderTofu.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
+		
 		foodTemp=new FoodItem("","falafel",Integer.parseInt(orderFal.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
 		foodTemp=new FoodItem("","lettuce",Integer.parseInt(orderLet.getText()),0,0);
@@ -991,33 +1221,45 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		toReorder.addIngredient(foodTemp);
 		foodTemp=new FoodItem("","capsicum",Integer.parseInt(orderCap.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
+		
+		foodTemp=new FoodItem("","avocado",Integer.parseInt(orderAvo.getText()),0,0);
+		toReorder.addIngredient(foodTemp);
+		foodTemp=new FoodItem("","carrot",Integer.parseInt(orderCar.getText()),0,0);
+		toReorder.addIngredient(foodTemp);
+		foodTemp=new FoodItem("","pineapple",Integer.parseInt(orderPine.getText()),0,0);
+		toReorder.addIngredient(foodTemp);
+		foodTemp=new FoodItem("","pickles",Integer.parseInt(orderPic.getText()),0,0);
+		toReorder.addIngredient(foodTemp);
+		
+			
 		foodTemp=new FoodItem("","swiss",Integer.parseInt(orderSwi.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
 		foodTemp=new FoodItem("","cheddar",Integer.parseInt(orderChed.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","haloumi",Integer.parseInt(orderHal.getText()),0,0);
+		foodTemp=new FoodItem("","halloumi",Integer.parseInt(orderHal.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
 		foodTemp=new FoodItem("","paneer",Integer.parseInt(orderPan.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","tomato s",Integer.parseInt(orderTomS.getText()),0,0);
+		
+		foodTemp=new FoodItem("","tomatosauce",Integer.parseInt(orderTomS.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","bbq",Integer.parseInt(orderBbq.getText()),0,0);
-		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","peanut",Integer.parseInt(orderPea.getText()),0,0);
-		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","garlic aioli",Integer.parseInt(orderAio.getText()),0,0);
+		foodTemp=new FoodItem("","aioli",Integer.parseInt(orderAio.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
 		foodTemp=new FoodItem("","mayo",Integer.parseInt(orderMayo.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","mustard",Integer.parseInt(orderMus.getText()),0,0);
+		foodTemp=new FoodItem("","italian",Integer.parseInt(orderItal.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","cool ranch",Integer.parseInt(orderCool.getText()),0,0);
+		foodTemp=new FoodItem("","curry",Integer.parseInt(orderCur.getText()),0,0);
 		toReorder.addIngredient(foodTemp);
+//		foodTemp=new FoodItem("","mustard",Integer.parseInt(orderMus.getText()),0,0);
+//		toReorder.addIngredient(foodTemp);
+//		foodTemp=new FoodItem("","cool ranch",Integer.parseInt(orderCool.getText()),0,0);
+//		toReorder.addIngredient(foodTemp);
 
 
 
 		boolean hasReordered = jdbc.reorderStock(toReorder);
-		System.out.println("ordered "+hasReordered);
+//		System.out.println("ordered "+hasReordered);
 	}
 
 
