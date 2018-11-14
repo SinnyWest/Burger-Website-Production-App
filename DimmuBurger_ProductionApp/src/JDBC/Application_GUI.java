@@ -2,10 +2,14 @@ package JDBC;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -44,8 +48,7 @@ public class Application_GUI {
 
 	JLabel failedlogin = new JLabel("Sorry, please try again");
 	JTextField username = new JTextField();
-	JTextField password = new JTextField();
-
+	JTextField password = new JTextField();	
 	JButton loginBtn = new JButton("Login to Admin screen");
 	JButton kitchenBtn = new JButton("Go to Kitchen screen");
 	JButton goBackBtn1 = new JButton("Return to Login screen");
@@ -143,29 +146,54 @@ public class Application_GUI {
 		failedlogin.setVisible(false);
 
 		JLabel usernameLbl = new JLabel("Username:");
-
+		getBigger(usernameLbl, 9); 
+		increaseLableSize(usernameLbl,160, 80);//increase the size
+		//usernameLbl.setBackground(Color.pink);
+		//usernameLbl.setOpaque(true); 
+		
+		increaseLableSize(username,160, 80);//for the font size
+		getBigger(username,9);
+		
+		
 		JLabel passwordLbl = new JLabel("Password:");
-
+		getBigger(passwordLbl, 9);
+		increaseLableSize(passwordLbl,160, 80);//increase the size
+		//passwordLbl.setBackground(Color.pink);
+		//passwordLbl.setOpaque(true);
+		
+		increaseLableSize(password,160, 80);
+		getBigger(password,9);
+		
+		increaseLableSize(loginBtn,160, 80);
+		getBigger(loginBtn,6);
+		
+		
 		vbox.add(failedlogin);
 		vbox.add(usernameLbl);
+		
 		vbox.add(username);
 		vbox.add(passwordLbl);
+		
 		vbox.add(password);
+		
 		vbox.add(loginBtn);
+		
 
 
 		JPanel left = new JPanel();
 		left.setSize(400, 600);
-		//left.setBackground(Color.BLUE);
+		left.setBackground(Color.yellow);
 		left.setVisible(true);
 		left.add(vbox);
 
 
 		JPanel right = new JPanel();
 		right.setSize(400, 600);
-		//right.setBackground(Color.RED);
+		right.setBackground(Color.pink);
 		right.setVisible(true);		
 		right.add(kitchenBtn);
+		increaseLableSize(kitchenBtn,250, 80);
+		getBigger(kitchenBtn,6);
 
 
 		JSplitPane splitPane = new JSplitPane();
@@ -368,6 +396,7 @@ public class Application_GUI {
 			//				inProg0.setVisible(true); //probably the right place for this
 
 			//we want to add them both, but maybe only one is visible
+			
 			BtnArea.add(inProg0);
 			BtnArea.add(done0);
 
@@ -409,22 +438,33 @@ public class Application_GUI {
 		}
 		return BtnArea;
 	}
+	
+	
 
 	public void setOnClickListeners() {
 
 
 
 		//login to admin screen
+		//Dimension maxSize = new Dimension(100, 100);
+		//loginBtn.setMaximumSize(maxSize);
+		//increaseLableSize(loginBtn,160, 80);
+		//getBigger(loginBtn,90);
 		loginBtn.addActionListener(new ActionListener() {
-
+			
 			public void actionPerformed(ActionEvent e) {
-
+				
+				//getBigger(loginBtn,150);
+		
+			//loginBtn.setSize(150, 75);
+		           // setMaximumSize(getSize(78));
 				boolean canLogin = jdbc.adminLogin(username.getText(), password.getText());
 
 				if(canLogin) {
 
 					loginframe.setVisible(false);
 					adminframe.setVisible(true);
+					adminframe.setBackground(Color.LIGHT_GRAY);
 					kitchenframe.setVisible(false);
 					//	        		initilizeKitchen();
 				} else {
@@ -437,6 +477,7 @@ public class Application_GUI {
 		});
 
 		// sets up kitchen page
+		//increaseLableSize(kitchenBtn,160, 80);
 		kitchenBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -451,10 +492,11 @@ public class Application_GUI {
 		});
 
 		//return from kitchen to login
+		increaseLableSize(goBackBtn,160, 80);
 		goBackBtn1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
+				 
 				kitchenframe.setVisible(false);
 				adminframe.setVisible(false);
 				loginframe.setVisible(true);
@@ -465,6 +507,7 @@ public class Application_GUI {
 		//return from admin to login
 		//change button name
 		//create new button
+		increaseLableSize(goBackBtn2,160, 80);
 		goBackBtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adminframe.setVisible(false);
@@ -479,6 +522,7 @@ public class Application_GUI {
 
 		//admin screen save new quantities to db
 		//action for Submit button
+		increaseLableSize(submitBtn,160, 80);
 		submitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -491,6 +535,7 @@ public class Application_GUI {
 		}); 
 
 		//may need some changes to get visibility working right for button with initialization
+		
 		inProg0.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -640,7 +685,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		adminframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		adminframe.getContentPane().setLayout(grid);
 		adminframe.pack();
-		adminframe.setSize(800, 800);
+		adminframe.setSize(1000, 1000);
 		adminframe.setVisible(true);
 		setupRowHashMap();
 		setupHeadingHashMap();
@@ -649,7 +694,19 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		//setActionListeners();
 
 	}
+	public void getBigger(Component obj, int n) {
+		
+		Font f = obj.getFont();
 
+		  // create a new, smaller font from the current font
+		  Font f2 = new Font(f.getFontName(), f.getStyle(), f.getSize()+n);
+
+		  // set the new font in the editing area
+		  obj.setFont(f2);
+	}
+	public void increaseLableSize(Component obj,int width, int height) {
+	obj.setPreferredSize(new Dimension(width,height));
+	}
 	public void initializeAdmin() {
 		adminframe.getContentPane().removeAll();
 		Burger stock=jdbc.checkStockLevels();
@@ -665,20 +722,22 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 			// bread1 in column 1, row 2
 			JLabel nameBun = new JLabel(ings.get(i).getName());
 			//nameBun.setFont(Font.font("Arial",  15));
+			getBigger(nameBun,9) ;
 			con.gridx=nameCol;
 			con.gridy=rowNum;
 			adminframe.add(nameBun, con);
 
 			// bread1 in column 2, row 2
 			JLabel quanBun = new JLabel(Integer.toString(ings.get(i).getQuantity()));
-			//quanBun.setFont(Font.font("Arial",  15));
+			
+			//getBigger(quanBun,9) ;
 			con.gridx=quanCol;
 			con.gridy=rowNum;
 			adminframe.add(quanBun,con);
 
 			// bread1 in column 3, row 2
 			JLabel minBun = new JLabel(Integer.toString(ings.get(i).getMinLevel()));
-			//minBun.setFont(Font.font("Arial",  15));
+			getBigger(minBun,9) ;
 			con.gridx=minCol;
 			con.gridy=rowNum;
 			adminframe.add(minBun, con);
@@ -698,7 +757,8 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 			//bread headings
 			// Ing name in column 1, row 1
 			JLabel nameCat = new JLabel(cat);
-			// nameCat.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		
+			getBigger(nameCat,9) ;
 			con.fill = GridBagConstraints.HORIZONTAL;
 			con.weightx = 0.25;
 			con.gridx=breadX;
@@ -707,7 +767,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 
 			// Quan in column 2, row 1
 			JLabel quantityCat = new JLabel(quanTitle);
-			//quantityCat.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+			getBigger(quantityCat,9) ;
 			con.fill = GridBagConstraints.HORIZONTAL;
 			con.weightx = 0.25;
 			con.gridx=quanCol;
@@ -716,7 +776,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 
 			// restock in column 3, row 1
 			JLabel restockCat = new JLabel(minTitle);
-			//restockCat.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+			getBigger(restockCat,9) ;
 			con.fill = GridBagConstraints.HORIZONTAL;
 			con.weightx = 0.25;
 			con.gridx=minCol;
@@ -726,6 +786,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 			// toOrder in column 4, row 1
 			JLabel toOrderCat = new JLabel(reorderTitle);
 			//toOrderCat.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+			getBigger(toOrderCat,9) ;
 			con.fill = GridBagConstraints.HORIZONTAL;
 			con.weightx = 0.25;
 			con.gridx=reordCol;
@@ -737,6 +798,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		//setting the guess button attributes
 		goBackBtn1.setText("Go Back");
 		//goBackBtn.setFont(Font.font(15));
+		increaseLableSize(goBackBtn1,160, 80);// to increase the size
 		con.gridx=nameCol;
 		con.gridy=sausY+8;
 		adminframe.add(goBackBtn1, con);
@@ -745,6 +807,7 @@ System.out.println("Count listeners: "+((JButton) e.getSource()).getActionListen
 		//setting the guess button attributes
 		submitBtn.setText("Submit");
 		//submitBtn.setFont(Font.font(15));
+		increaseLableSize(submitBtn,160, 80);// to increase th size
 		con.gridx=reordCol;
 		con.gridy=sausY+8;
 		adminframe.add(submitBtn, con);

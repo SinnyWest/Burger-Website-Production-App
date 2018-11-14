@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 
 
 //text aligns to wrong plae on startup, fixed on refresh
-
+// not in use at 
 
 public class admin_gui2 {
 	

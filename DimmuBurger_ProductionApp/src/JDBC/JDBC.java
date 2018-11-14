@@ -95,6 +95,33 @@ public class JDBC {
 		}
 	}
 
+	
+	public void enterHerokuDatabase() {
+        try {
+
+            String databaseUser = "elodciopfpuvmj";                //change
+            String databaseUserPass = "55344e1cdceb4b3b705df4d124d165d5e2bc45d9d2ee6f34a93235811330e10e";           //change        
+            Class.forName("org.postgresql.Driver");            //change
+            connection = null;
+            String url = "jdbc:postgresql://ec2-204-236-230-19.compute-1.amazonaws.com:5432/de9vonq92up9sm?user=elodciopfpuvmj&password=55344e1cdceb4b3b705df4d124d165d5e2bc45d9d2ee6f34a93235811330e10e&sslmode=require";    //change
+            
+//            String ConnectionString ="jdbc:postgresql://ec2-204-236-230-19.compute-1.amazonaws.com:5432/de9vonq92up9sm?user=elodciopfpuvmj&password=55344e1cdceb4b3b705df4d124d165d5e2bc45d9d2ee6f34a93235811330e10e&sslmode=require";
+//            String username = "elodciopfpuvmj";
+//            String password = "55344e1cdceb4b3b705df4d124d165d5e2bc45d9d2ee6f34a93235811330e10e";
+        
+            connection= DriverManager.getConnection(url, databaseUser, databaseUserPass);
+
+            //connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
+            s = connection.createStatement();
+        }
+        catch(Exception e){
+
+            System.out.println("Enter db Error: "+e.toString());
+
+            e.printStackTrace();
+        }
+    }
+	
 	// this is tested as working 8/11
 	public FoodItem testSelectQuery(String nm) {
 
@@ -221,7 +248,8 @@ public class JDBC {
 		boolean res = true;
 		try
 		{       	
-			enterTestDatabase();
+//			enterTestDatabase();
+			enterHerokuDatabase();
 
 			ResultSet rs = s.executeQuery("select * from adminlogin where username ='" + un 
 					+ "' and password='" + pass + "'");
@@ -291,7 +319,8 @@ public class JDBC {
 
 		try
 		{
-			enterTestDatabase();
+//			enterTestDatabase();
+			enterHerokuDatabase();
 
 			//for all items in hashmap
 			//check if name is in table
@@ -351,7 +380,8 @@ public class JDBC {
 
 		try
 		{
-			enterTestDatabase();		
+//			enterTestDatabase();
+			enterHerokuDatabase();		
 
 			// query limits to 1 result that picks up the oldest "new" order.
 			ResultSet rs = s.executeQuery("select * from orders where orderstate = 'new' order by ordernumber asc limit 1");
@@ -378,6 +408,7 @@ public class JDBC {
 					newBurger.setName(burgerName);
 					newBurger.setOrderNum(orderNum);
 					newBurger.setSubOrderNum(subOrderNum);
+					newBurger.setState("new");
 
 					//find column heading names
 					ResultSetMetaData rsmd = ing.getMetaData();
@@ -421,7 +452,8 @@ public class JDBC {
 
 		try
 		{
-			enterTestDatabase();
+//			enterTestDatabase();
+			enterHerokuDatabase();
 
 			// get ingredient row
 			ResultSet rs = s.executeQuery("select orderstate from orders " + "where ordernumber = '" + orderNum + 
