@@ -332,8 +332,6 @@ public class Application_GUI {
 		
 		
 		
-		
-		
 	}
 
 	// timer is initialized with the production line app
