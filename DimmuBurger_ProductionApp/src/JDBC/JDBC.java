@@ -413,6 +413,11 @@ public class JDBC {
 					newBurger.setName(burgerName);
 					newBurger.setOrderNum(orderNum);
 					newBurger.setSubOrderNum(subOrderNum);
+<<<<<<< HEAD
+					newBurger.setState("new");
+=======
+					System.out.println("inside ing ordernumber "+orderNum);
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 
 					newBurger.setState("new");
 
@@ -428,6 +433,7 @@ public class JDBC {
 					// The column count starts from 1
 					//cycle through all columns to get ingredient quantities out
 					for (int i = 2; i <= columnCount; i++) {
+<<<<<<< HEAD
 //						System.out.println("looping through recipe columns");
 						name = rsmd.getColumnName(i);
 //						System.out.println("name "+name);
@@ -472,6 +478,39 @@ public class JDBC {
 				} //if ing.next
 				
 			 
+=======
+						System.out.println("looping through recipe columns");
+						name = rsmd.getColumnName(i);
+						System.out.println("name "+name);
+						int foodQuan = ing.getInt(name);
+						System.out.println("foodQquan "+foodQuan);
+						if(foodQuan > 0) {
+							System.out.println("inside foodquan loop");
+							// in here, minus foodquan from quantity of name
+							// get current foodquan
+							
+							ResultSet rsStock = s.executeQuery("select quantityinstock from ingredients where ingredient = '" + name + "'");
+							
+							if(rsStock.next()) {
+								System.out.println("inside ingredients loop");
+								int stockQuan = rsStock.getInt("quantityinstock");
+								
+								int updateQuantity = s.executeUpdate("update ingredients set quantityinstock = '" + (stockQuan - foodQuan) 
+																			+ "' where ingredient = '" + name + "'");
+	
+								FoodItem foodTemp = new FoodItem("", name, foodQuan, 0, 0);
+								System.out.println("temp burger "+name+" quan "+foodQuan);
+								newBurger.addIngredient(foodTemp);
+							}
+							//this is closing early and only pulling out one ingredient
+							rsStock.close();
+						} //end if foodquan>0
+						
+					} //end for each col in recipe
+				} //if ing.next
+//				ing.close();
+			} 
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 			rs.close();
 			connection.close();
 		} 

@@ -49,7 +49,10 @@ public class Application_GUI {
 	JLabel failedlogin = new JLabel("Sorry, please try again");
 	JLabel usernameLbl=new JLabel("Username:");
 	JTextField username = new JTextField();
+<<<<<<< HEAD
 	JLabel passwordLbl = new JLabel("Password:");
+=======
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 	JTextField password = new JTextField();	
 	JButton loginBtn = new JButton("Login to Admin screen");
 	JButton kitchenBtn = new JButton("Go to Kitchen screen");
@@ -184,6 +187,7 @@ public class Application_GUI {
 
 		failedlogin.setVisible(false);
 
+<<<<<<< HEAD
 		
 		
 		//usernameLbl.setBackground(Color.pink);
@@ -192,6 +196,29 @@ public class Application_GUI {
 		//passwordLbl.setOpaque(true);
 		
 		
+=======
+		JLabel usernameLbl = new JLabel("Username:");
+		getBigger(usernameLbl, 9); 
+		increaseLableSize(usernameLbl,160, 80);//increase the size
+		//usernameLbl.setBackground(Color.pink);
+		//usernameLbl.setOpaque(true); 
+		
+		increaseLableSize(username,160, 80);//for the font size
+		getBigger(username,9);
+		
+		
+		JLabel passwordLbl = new JLabel("Password:");
+		getBigger(passwordLbl, 9);
+		increaseLableSize(passwordLbl,160, 80);//increase the size
+		//passwordLbl.setBackground(Color.pink);
+		//passwordLbl.setOpaque(true);
+		
+		increaseLableSize(password,160, 80);
+		getBigger(password,9);
+		
+		increaseLableSize(loginBtn,160, 80);
+		getBigger(loginBtn,6);
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		
 		
 		vbox.add(failedlogin);
@@ -218,7 +245,12 @@ public class Application_GUI {
 		right.setBackground(Color.pink);
 		right.setVisible(true);		
 		right.add(kitchenBtn);
+<<<<<<< HEAD
 		
+=======
+		increaseLableSize(kitchenBtn,250, 80);
+		getBigger(kitchenBtn,6);
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 
 
 		JSplitPane splitPane = new JSplitPane();
@@ -423,7 +455,11 @@ public class Application_GUI {
 		for(int i = 0; i < ings.size(); i++) {
 
 			if(ings.get(i).getQuantity() > 0) {
+<<<<<<< HEAD
 //				System.out.println("quantity "+ings.get(i).getQuantity());
+=======
+				System.out.println("quantity "+ings.get(i).getQuantity());
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 
 				FoodTxt.setText(FoodTxt.getText() + ings.get(i).getName() + "  " 
 						+ ings.get(i).getQuantity() + " ; ");
@@ -431,7 +467,10 @@ public class Application_GUI {
 		}
 
 		//FoodTxt.setText(FoodTxt.getText() + n);
+<<<<<<< HEAD
 		getBigger(FoodTxt,6);
+=======
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		WordArea.add(FoodTxt);
 
 		Box BtnArea = createNewBtnBox(n);
@@ -557,7 +596,11 @@ public class Application_GUI {
 		});
 
 		//return from kitchen to login
+<<<<<<< HEAD
 		//increaseLableSize(goBackBtn,160, 80);
+=======
+		increaseLableSize(goBackBtn,160, 80);
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		goBackBtn1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -572,7 +615,11 @@ public class Application_GUI {
 		//return from admin to login
 		//change button name
 		//create new button
+<<<<<<< HEAD
 		//increaseLableSize(goBackBtn2,160, 80);
+=======
+		increaseLableSize(goBackBtn2,160, 80);
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		goBackBtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adminframe.setVisible(false);
@@ -587,7 +634,11 @@ public class Application_GUI {
 
 		//admin screen save new quantities to db
 		//action for Submit button
+<<<<<<< HEAD
 		//increaseLableSize(submitBtn,160, 80);
+=======
+		increaseLableSize(submitBtn,160, 80);
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		submitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -800,6 +851,7 @@ public class Application_GUI {
 		  // set the new font in the editing area
 		  obj.setFont(f2);
 	}
+<<<<<<< HEAD
 	
 	
 	public void increaseLableSize(Component obj,int width, int height) {
@@ -808,6 +860,11 @@ public class Application_GUI {
 	
 	
 	
+=======
+	public void increaseLableSize(Component obj,int width, int height) {
+	obj.setPreferredSize(new Dimension(width,height));
+	}
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 	public void initializeAdmin() {
 		adminframe.getContentPane().removeAll();
 		Burger stock=jdbc.checkStockLevels();
@@ -823,7 +880,11 @@ public class Application_GUI {
 			// bread1 in column 1, row 2
 			JLabel nameBun = new JLabel(ings.get(i).getName());
 			//nameBun.setFont(Font.font("Arial",  15));
+<<<<<<< HEAD
 			getBigger(nameBun,6) ;
+=======
+			getBigger(nameBun,9) ;
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 			con.gridx=nameCol;
 			con.gridy=rowNum;
 			adminframe.add(nameBun, con);
@@ -831,14 +892,22 @@ public class Application_GUI {
 			// bread1 in column 2, row 2
 			JLabel quanBun = new JLabel(Integer.toString(ings.get(i).getQuantity()));
 			
+<<<<<<< HEAD
 			getBigger(quanBun,6) ;
+=======
+			//getBigger(quanBun,9) ;
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 			con.gridx=quanCol;
 			con.gridy=rowNum;
 			adminframe.add(quanBun,con);
 
 			// bread1 in column 3, row 2
 			JLabel minBun = new JLabel(Integer.toString(ings.get(i).getMinLevel()));
+<<<<<<< HEAD
 			getBigger(minBun,6) ;
+=======
+			getBigger(minBun,9) ;
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 			con.gridx=minCol;
 			con.gridy=rowNum;
 			adminframe.add(minBun, con);
@@ -899,16 +968,28 @@ public class Application_GUI {
 		//setting the guess button attributes
 		goBackBtn2.setText("Go Back");
 		//goBackBtn.setFont(Font.font(15));
+<<<<<<< HEAD
 		//increaseLableSize(goBackBtn1,160, 80);// to increase the size
+=======
+		increaseLableSize(goBackBtn1,160, 80);// to increase the size
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		con.gridx=nameCol;
+<<<<<<< HEAD
 		con.gridy=sausY+6;
+=======
+		con.gridy=sausY+8;
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		adminframe.add(goBackBtn2, con);
 
 
 		//setting the guess button attributes
 		submitBtn.setText("Submit");
 		//submitBtn.setFont(Font.font(15));
+<<<<<<< HEAD
 		//increaseLableSize(submitBtn,160, 80);// to increase th size
+=======
+		increaseLableSize(submitBtn,160, 80);// to increase th size
+>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		con.gridx=reordCol;
 		con.gridy=sausY+6;
 		adminframe.add(submitBtn, con);
