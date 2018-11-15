@@ -220,6 +220,8 @@ public class Application_GUI {
 //		getBigger(loginBtn,6);
 //>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		
+		username.setText("");
+		password.setText("");
 		
 		vbox.add(failedlogin);
 		vbox.add(usernameLbl);
@@ -604,7 +606,8 @@ public class Application_GUI {
 		goBackBtn1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				 
+				username.setText("");
+				password.setText("");
 				kitchenframe.setVisible(false);
 				adminframe.setVisible(false);
 				loginframe.setVisible(true);
@@ -622,6 +625,8 @@ public class Application_GUI {
 //>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 		goBackBtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				username.setText("");
+				password.setText("");
 				adminframe.setVisible(false);
 				loginframe.setVisible(true);
 				kitchenframe.setVisible(false);
