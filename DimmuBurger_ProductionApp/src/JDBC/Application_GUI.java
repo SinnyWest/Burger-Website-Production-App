@@ -1276,7 +1276,7 @@ public class Application_GUI {
        // string = string.replaceAll("\\D+", "");
        // string = string.replaceAll("[^0-9]", "");
         
-        System.out.println(string);
+        //System.out.println(string);
         
         return string;
     }
