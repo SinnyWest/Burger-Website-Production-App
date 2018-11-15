@@ -197,7 +197,7 @@ public class Application_GUI {
 		
 		
 //=======
-		JLabel usernameLbl = new JLabel("Username:");
+//		JLabel usernameLbl = new JLabel("Username:");
 //		getBigger(usernameLbl, 9); 
 //		increaseLableSize(usernameLbl,160, 80);//increase the size
 		//usernameLbl.setBackground(Color.pink);
@@ -207,7 +207,7 @@ public class Application_GUI {
 //		getBigger(username,9);
 		
 		
-		JLabel passwordLbl = new JLabel("Password:");
+//		JLabel passwordLbl = new JLabel("Password:");
 //		getBigger(passwordLbl, 9);
 //		increaseLableSize(passwordLbl,160, 80);//increase the size
 		//passwordLbl.setBackground(Color.pink);
@@ -1014,8 +1014,8 @@ public class Application_GUI {
 
 		rowCount.put("beef", baseY+1);
 		rowCount.put("chicken", baseY+2);
-		rowCount.put("tofu", baseY+3);
-		rowCount.put("falafel", baseY+4);
+		rowCount.put("tofu", baseY+4);
+		rowCount.put("falafel", baseY+3);
 
 		rowCount.put("lettuce",prodY+1);
 		rowCount.put("tomato", prodY+2);
@@ -1271,65 +1271,75 @@ public class Application_GUI {
 //		adminframe.add(orderCool, con);
 	}
 
+	public static String filterString(String string) {
+        
+       // string = string.replaceAll("\\D+", "");
+       // string = string.replaceAll("[^0-9]", "");
+        
+        System.out.println(string);
+        
+        return string;
+    }
 
 
 	public void submitAction() {
 
 		Burger toReorder=new Burger();
-		FoodItem foodTemp=new FoodItem("","burgerbun",Integer.parseInt(orderBun.getText()),0,0);
+		FoodItem foodTemp=new FoodItem("","burgerbun",Integer.parseInt(filterString(orderBun.getText())),0,0);
 //		System.out.println(foodTemp.getName());
 		toReorder.addIngredient(foodTemp);
 
-		foodTemp=new FoodItem("","junior",Integer.parseInt(orderJnr.getText()),0,0);
+		foodTemp=new FoodItem("","junior",Integer.parseInt(filterString(orderJnr.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","wrap",Integer.parseInt(orderWrap.getText()),0,0);
-		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","beef",Integer.parseInt(orderBeef.getText()),0,0);
-		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","chicken",Integer.parseInt(orderChic.getText()),0,0);
-		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","tofu",Integer.parseInt(orderTofu.getText()),0,0);
+		foodTemp=new FoodItem("","wrap",Integer.parseInt(filterString(orderWrap.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
 		
-		foodTemp=new FoodItem("","falafel",Integer.parseInt(orderFal.getText()),0,0);
+		foodTemp=new FoodItem("","beef",Integer.parseInt(filterString(orderBeef.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","lettuce",Integer.parseInt(orderLet.getText()),0,0);
+		foodTemp=new FoodItem("","chicken",Integer.parseInt(filterString(orderChic.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","tomato",Integer.parseInt(orderTom.getText()),0,0);
-		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","onion",Integer.parseInt(orderOni.getText()),0,0);
-		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","capsicum",Integer.parseInt(orderCap.getText()),0,0);
+		foodTemp=new FoodItem("","tofu",Integer.parseInt(filterString(orderTofu.getText())),0,0);
+		toReorder.addIngredient(foodTemp);		
+		foodTemp=new FoodItem("","falafel",Integer.parseInt(filterString(orderFal.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
 		
-		foodTemp=new FoodItem("","avocado",Integer.parseInt(orderAvo.getText()),0,0);
+		foodTemp=new FoodItem("","lettuce",Integer.parseInt(filterString(orderLet.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","carrot",Integer.parseInt(orderCar.getText()),0,0);
+		foodTemp=new FoodItem("","tomato",Integer.parseInt(filterString(orderTom.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","pineapple",Integer.parseInt(orderPine.getText()),0,0);
+		foodTemp=new FoodItem("","onion",Integer.parseInt(filterString(orderOni.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","pickles",Integer.parseInt(orderPic.getText()),0,0);
+		foodTemp=new FoodItem("","capsicum",Integer.parseInt(filterString(orderCap.getText())),0,0);
+		toReorder.addIngredient(foodTemp);
+		
+		foodTemp=new FoodItem("","avocado",Integer.parseInt(filterString(orderAvo.getText())),0,0);
+		toReorder.addIngredient(foodTemp);
+		foodTemp=new FoodItem("","carrot",Integer.parseInt(filterString(orderCar.getText())),0,0);
+		toReorder.addIngredient(foodTemp);
+		foodTemp=new FoodItem("","pineapple",Integer.parseInt(filterString(orderPine.getText())),0,0);
+		toReorder.addIngredient(foodTemp);
+		foodTemp=new FoodItem("","pickles",Integer.parseInt(filterString(orderPic.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
 		
 			
-		foodTemp=new FoodItem("","swiss",Integer.parseInt(orderSwi.getText()),0,0);
+		foodTemp=new FoodItem("","swiss",Integer.parseInt(filterString(orderSwi.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","cheddar",Integer.parseInt(orderChed.getText()),0,0);
+		foodTemp=new FoodItem("","cheddar",Integer.parseInt(filterString(orderChed.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","halloumi",Integer.parseInt(orderHal.getText()),0,0);
+		foodTemp=new FoodItem("","halloumi",Integer.parseInt(filterString(orderHal.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","paneer",Integer.parseInt(orderPan.getText()),0,0);
+		foodTemp=new FoodItem("","paneer",Integer.parseInt(filterString(orderPan.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
 		
-		foodTemp=new FoodItem("","tomatosauce",Integer.parseInt(orderTomS.getText()),0,0);
+		foodTemp=new FoodItem("","tomatosauce",Integer.parseInt(filterString(orderTomS.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","aioli",Integer.parseInt(orderAio.getText()),0,0);
+		foodTemp=new FoodItem("","aioli",Integer.parseInt(filterString(orderAio.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","mayo",Integer.parseInt(orderMayo.getText()),0,0);
+		foodTemp=new FoodItem("","mayo",Integer.parseInt(filterString(orderMayo.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","italian",Integer.parseInt(orderItal.getText()),0,0);
+		foodTemp=new FoodItem("","italian",Integer.parseInt(filterString(orderItal.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
-		foodTemp=new FoodItem("","curry",Integer.parseInt(orderCur.getText()),0,0);
+		foodTemp=new FoodItem("","curry",Integer.parseInt(filterString(orderCur.getText())),0,0);
 		toReorder.addIngredient(foodTemp);
 //		foodTemp=new FoodItem("","mustard",Integer.parseInt(orderMus.getText()),0,0);
 //		toReorder.addIngredient(foodTemp);
