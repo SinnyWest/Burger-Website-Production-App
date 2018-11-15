@@ -416,7 +416,7 @@ public class JDBC {
 
 					newBurger.setState("new");
 
-					System.out.println("inside ing ordernumber "+orderNum);
+//					System.out.println("inside ing ordernumber "+orderNum);
 //>>>>>>> branch 'master' of git@gitlab.ecs.vuw.ac.nz:westsere/dimmuburger_productionapp.git
 
 					newBurger.setState("new");
